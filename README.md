@@ -7,6 +7,8 @@ npm update
 npm install
 npm install --save-dev nodemon
 npm install morgan
+npm install cors --save
+
 
 npm run watch
 ```

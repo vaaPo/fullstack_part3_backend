@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 var morgan = require('morgan')
+const cors = require('cors')
+
 
 const repl = require('repl');
 const bodyParser = require('body-parser');
@@ -12,6 +14,10 @@ let persons=pers;
 
 //let notes=require('./datafiles/Notes/notes');
 //import persons from './datafiles/PhoneBook';
+
+app.use(cors()); //https://github.com/expressjs/cors
+//https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy
+//https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
 
 app.use(bodyParser.json());
 //app.use(morgan('combined'));
