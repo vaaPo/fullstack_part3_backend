@@ -10,7 +10,7 @@ Backend for https://fullstackopen.github.io/osa3/ code, see fullstack_part3_fron
 - [x] 3.6 puhelinluettelon backend osa 6 : see post_broken_*.rest
 - [x] 3.7 puhelinluettelon backend osa 7 : see morgan talking in console
 - [x] 3.8 puhelinluettelon backend osa 8 : morgan says: POST /notes {"content":"öh","important":false,"id":5} 200 112 - 3.444 ms
-- [] 3.9 puhelinluettelon backend osa 9 : frontend: <https://github.com/vaaPo/fullstack_part3_frontend>
+- [x] 3.9 puhelinluettelon backend osa 9 : frontend baseurl's changed in *TAPI.js files <https://github.com/vaaPo/fullstack_part3_frontend>
 ```
 npm install express --save
 npm update
