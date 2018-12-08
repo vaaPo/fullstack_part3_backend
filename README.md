@@ -29,10 +29,16 @@ heroku --version
 heroku login -i
 heroku create
 '''
-#### deploy
+#### deploy - can be done with code as well
 '''
 git add -A
 git commit -m "Initiate app."
 git push heroku master
 '''
+#### surf to <https://mysterious-fjord-82967.herokuapp.com/notes>
+'''
+heroku logs
+heroku logs -t
+'''
+
 
