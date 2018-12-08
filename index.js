@@ -15,7 +15,35 @@ let persons=pers;
 
 app.use(bodyParser.json());
 //app.use(morgan('combined'));
-app.use(morgan('tiny'));
+//https://github.com/expressjs/morgan#creating-new-tokens
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+/**
+ * morgan(function (tokens, req, res) {
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms'
+  ].join(' ')
+});
+ */
+
+
+app.use(morgan(function (tokens, req, res) {
+      return [
+        tokens.method(req, res),
+        tokens.url(req, res),
+        JSON.stringify(req.body),
+        tokens.status(req, res),
+        tokens.res(req, res, 'content-length'), '-',
+        tokens['response-time'](req, res), 'ms'
+      ].join(' ')
+}));
+
+//morgan(':method :url :status :res[content-length] - :response-time ms')
+
+//app.use(morgan('tiny'));      //FIXME hw3.7 morgan('tiny')
 
 console.log('hello world');
 console.log('notes',notes);
