@@ -55,7 +55,9 @@ console.log('hello world');
 console.log('notes',notes);
 console.log('persons',persons);
 console.log('persons.length',persons.length);
+//FIXME hw3.11 - add static files support for build directory e.g. fetching the index.js frontend stuff from there
 
+app.use(express.static('build'));
 
 app.get('/', (req, res) => {
     res.send('<h1>Hello World!</h1>');

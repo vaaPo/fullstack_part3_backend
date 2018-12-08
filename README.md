@@ -40,5 +40,6 @@ git push heroku master
 heroku logs
 heroku logs -t
 '''
+#### fix frontends baseurl to https://mysterious-fjord-82967.herokuapp.com/
 
 

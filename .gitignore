@@ -8,8 +8,8 @@
 # testing
 /coverage
 
-# production
-/build
+# production for hw3.11  - we need these for Heroku git dingdong
+#/build
 
 # misc
 .DS_Store
