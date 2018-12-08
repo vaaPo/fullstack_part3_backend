@@ -22,6 +22,17 @@ npm install cors --save
 
 npm run watch
 ```
-http://localhost:3001/notes
-http://localhost:3001/notes/1
+### Heroku <https://devcenter.heroku.com/articles/heroku-cli>
+'''
+sudo snap install --classic heroku
+heroku --version
+heroku login -i
+heroku create
+'''
+#### deploy
+'''
+git add -A
+git commit -m "Initiate app."
+git push heroku master
+'''
 

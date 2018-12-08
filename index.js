@@ -259,7 +259,8 @@ function getRandomIntInclusive(min, max) {
 
 
   
-  const PORT = 3001;
+  //const PORT = 3001;
+  const PORT = process.env.PORT || 3001                   // for Heroku environment variable
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
