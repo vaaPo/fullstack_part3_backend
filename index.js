@@ -13,20 +13,18 @@ let persons=pers;
 
 app.use(bodyParser.json())
 
-
 console.log('hello world');
 console.log('notes',notes);
 console.log('persons',persons);
 console.log('persons.length',persons.length);
 
 
-
-  app.get('/', (req, res) => {
+app.get('/', (req, res) => {
     res.send('<h1>Hello World!</h1>');
     console.log('app.get /');
-  });
+});
 
-  app.get('/info', (req, res) => {
+app.get('/info', (req, res) => {
     personsCnt = persons.length;
     notesCnt = notes.length;
     // Use of Date.now() function 
@@ -50,27 +48,27 @@ console.log('persons.length',persons.length);
               +'/api/persons '
               +personsCnt
               );
-  });
+});
   //http://localhost:3001/info
 
 
-  app.get('/notes', (req, res) => {
+app.get('/notes', (req, res) => {
     res.json(notes);
     console.log('app.get /notes',notes);
 
-  });
+});
 
-  app.get('/api/persons', (req, res) => {
+app.get('/api/persons', (req, res) => {
     res.json(persons);
     console.log('app.get /persons',persons);
-  });
+});
 
 
   const eti=notes.find(note=>note.id===2);
   console.log(eti);
 
-    //http://localhost:3001/notes/1
-  app.get('/notes/:id', (request, response) => {
+//http://localhost:3001/notes/1
+app.get('/notes/:id', (request, response) => {
       //const id = request.params.id;
       const id = Number(request.params.id);
       console.log('app.get /notes/:id',id);
@@ -86,7 +84,27 @@ console.log('persons.length',persons.length);
       } else {                  // falsy https://developer.mozilla.org/en-US/docs/Glossary/Falsy
         response.status(404).end();
       };
-    });
+});
+
+//http://localhost:3001/api/persons/5
+app.get('/api/persons/:id', (request, response) => {
+  //const id = request.params.id;
+  const id = Number(request.params.id);
+  console.log('app.get /api/persons/:id',id);
+  console.log(persons.map(person => person.id));
+  //const note = notes.find(note => note.id === id);
+  const person = persons.find(person => {
+    console.log('app.get /api/persons/:id',person.id, typeof person.id, id, typeof id, person.id === id);
+    return person.id === id;
+  });
+  console.log('app.get /api/persons/notes/:id',person);
+  if ( person ) {             // truthy https://developer.mozilla.org/en-US/docs/Glossary/Truthy
+    response.json(person);
+  } else {                  // falsy https://developer.mozilla.org/en-US/docs/Glossary/Falsy
+    response.status(404).end();
+  };
+});
+
 
   app.delete('/notes/:id', (request, response) => {
       const id = Number(request.params.id);
