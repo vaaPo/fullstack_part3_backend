@@ -106,14 +106,24 @@ app.get('/api/persons/:id', (request, response) => {
 });
 
 
-  app.delete('/notes/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response) => {
       const id = Number(request.params.id);
-      console.log('app.delete /notes/:id',id);
-      notes = notes.filter(note => note.id !== id)
+      console.log('app.delete /api/persons/:id',id);
+      persons = persons.filter(person => person.id !== id)
     
       response.status(204).end()
-   });
-  
+});
+
+app.delete('/notes/:id', (request, response) => {
+  const id = Number(request.params.id);
+  console.log('app.delete /notes/:id',id);
+  notes = notes.filter(note => note.id !== id)
+
+  response.status(204).end()
+});
+
+
+
   const generateId = () => {
       const maxId = notes.length > 0 ? notes.map(n => n.id).sort((a,b) => a - b).reverse()[0] : 1;
       return maxId + 1;
