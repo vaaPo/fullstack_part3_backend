@@ -17,13 +17,43 @@ app.use(bodyParser.json())
 console.log('hello world');
 console.log('notes',notes);
 console.log('persons',persons);
+console.log('persons.length',persons.length);
+
 
 
   app.get('/', (req, res) => {
     res.send('<h1>Hello World!</h1>');
     console.log('app.get /');
   });
+
+  app.get('/info', (req, res) => {
+    personsCnt = persons.length;
+    notesCnt = notes.length;
+    // Use of Date.now() function 
+    var dn = Date(Date.now()); 
+    
+    // Converting the number of millisecond in date string 
+    requestDt = dn.toString();
   
+
+    // Printing the current date                     
+    console.log('app.get /info', personsCnt, requestDt);
+    res.send('PhoneBook has '
+              +personsCnt
+              +' persons'
+              +'<br>'
+              +requestDt
+              +'<br>'
+              +'/notes '
+              +notesCnt
+              +'<br>'
+              +'/api/persons '
+              +personsCnt
+              );
+  });
+  //http://localhost:3001/info
+
+
   app.get('/notes', (req, res) => {
     res.json(notes);
     console.log('app.get /notes',notes);
@@ -34,7 +64,7 @@ console.log('persons',persons);
     res.json(persons);
     console.log('app.get /persons',persons);
   });
-  
+
 
   const eti=notes.find(note=>note.id===2);
   console.log(eti);
