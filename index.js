@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+var morgan = require('morgan')
+
 const repl = require('repl');
 const bodyParser = require('body-parser');
 let nos=require('./datafiles/Notes/notes');
@@ -11,7 +13,9 @@ let persons=pers;
 //let notes=require('./datafiles/Notes/notes');
 //import persons from './datafiles/PhoneBook';
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+//app.use(morgan('combined'));
+app.use(morgan('tiny'));
 
 console.log('hello world');
 console.log('notes',notes);
@@ -148,12 +152,12 @@ function getRandomIntInclusive(min, max) {
       console.log('generateId4persons',maxId,startId,endId,personfreeId);
       return personfreeId;
   };
-  let foobar=generateId4notes;
+/**  let foobar=generateId4notes;
   console.log('generateId4notes',foobar);
 
   let xyzzy=generateId4persons;
   console.log('generateId4persons',xyzzy);
-
+ */
   app.post('/notes', (request, response) => {
     console.log(request.headers);
     const body = request.body;
@@ -178,6 +182,15 @@ function getRandomIntInclusive(min, max) {
   app.post('/api/persons', (request, response) => {
     console.log('app.post api/person');
     console.log(request.headers);
+    const logger = (request, response, next) => {
+      console.log('Method:',request.method);
+      console.log('Path:  ', request.path);
+      console.log('Body:  ', request.body);
+      console.log('---');
+      next();
+    };
+    app.use(logger);
+         
     const body = request.body;
 
     if (body.name === undefined || body.name === null) {
@@ -204,6 +217,14 @@ function getRandomIntInclusive(min, max) {
     };
   });
 
+  const error = (request, response) => {
+    response.status(404).send({error: 'unknown endpoint'});
+  };
+  
+  app.use(error);
+
+
+  
   const PORT = 3001;
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
