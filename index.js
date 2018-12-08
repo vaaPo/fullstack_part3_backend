@@ -176,23 +176,33 @@ function getRandomIntInclusive(min, max) {
   //http://localhost:3001/api/persons
   //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
   app.post('/api/persons', (request, response) => {
+    console.log('app.post api/person');
     console.log(request.headers);
     const body = request.body;
 
-    if (body.name === undefined) {
+    if (body.name === undefined || body.name === null) {
       return response.status(400).json({error: 'name missing'});
-    };
+    } else {
+      if (body.phonenumber === undefined || body.phonenumber === null) {
+        return response.status(400).json({error: 'phonenumber missing'});
+      };
   
-    const person = {
-      name: body.name,
-      phonenumber: body.phonenumber,
-      id: generateId4persons()
+      const duplicate = persons.find(person => person.name === body.name);
+      if (duplicate===undefined) {
+        const person = {
+          name: body.name,
+          phonenumber: body.phonenumber,
+          id: generateId4persons()
+        };
+        persons = persons.concat(person);
+        console.log('app.post /api/persons',person);
+        response.json(person);
+      } else {
+        console.log('app.post api/person duplicate error',duplicate);      
+        return response.status(400).json({error: 'name must be unique'});
+      };
     };
-    persons = persons.concat(person);
-    console.log('app.post /api/persons',person);
-    response.json(person);
   });
-
 
   const PORT = 3001;
   app.listen(PORT, () => {
