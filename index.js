@@ -122,12 +122,38 @@ app.delete('/notes/:id', (request, response) => {
   response.status(204).end()
 });
 
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  returnvalue = Math.floor(Math.random() * (max - min + 1)) + min;
+  console.log('getRandomIntInclusive',returnvalue);
+  return returnvalue; //The maximum is inclusive and the minimum is inclusive 
+};
 
 
-  const generateId = () => {
-      const maxId = notes.length > 0 ? notes.map(n => n.id).sort((a,b) => a - b).reverse()[0] : 1;
-      return maxId + 1;
-    };
+ const generateId4notes = () => {
+    let freeId=0;
+    const maxId = notes.length > 0   ? notes.map(n => n.id).sort((a,b) => a - b).reverse()[0] : 1;
+    let notesfreeId= maxId+1;    // this can be problematic :)
+    console.log('generateId4notes',maxId,notesfreeId);
+    return notesfreeId;
+  };
+
+
+  const generateId4persons = () => {
+      const maxId = persons.length > 0 ? persons.map(n=>n.id).sort((a,b) => a - b).reverse()[0] : 1;
+      const startId = maxId + 1;
+      const endId = startId + 1000;
+      let personfreeId = getRandomIntInclusive(startId,endId);
+      console.log('generateId4persons',maxId,startId,endId,personfreeId);
+      return personfreeId;
+  };
+  let foobar=generateId4notes;
+  console.log('generateId4notes',foobar);
+
+  let xyzzy=generateId4persons;
+  console.log('generateId4persons',xyzzy);
+
   app.post('/notes', (request, response) => {
     console.log(request.headers);
     const body = request.body;
@@ -140,12 +166,33 @@ app.delete('/notes/:id', (request, response) => {
       content: body.content,
       important: body.important|| false,
       date: new Date(),
-      id: generateId()
+      id: generateId4notes()
     };
     notes = notes.concat(note);
     console.log('app.post /notes',note);
     response.json(note);
   });
+
+  //http://localhost:3001/api/persons
+  //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+  app.post('/api/persons', (request, response) => {
+    console.log(request.headers);
+    const body = request.body;
+
+    if (body.name === undefined) {
+      return response.status(400).json({error: 'name missing'});
+    };
+  
+    const person = {
+      name: body.name,
+      phonenumber: body.phonenumber,
+      id: generateId4persons()
+    };
+    persons = persons.concat(person);
+    console.log('app.post /api/persons',person);
+    response.json(person);
+  });
+
 
   const PORT = 3001;
   app.listen(PORT, () => {
