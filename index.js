@@ -30,6 +30,12 @@ console.log('persons',persons);
 
   });
 
+  app.get('/api/persons', (req, res) => {
+    res.json(persons);
+    console.log('app.get /persons',persons);
+  });
+  
+
   const eti=notes.find(note=>note.id===2);
   console.log(eti);
 
