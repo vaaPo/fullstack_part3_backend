@@ -1,0 +1,68 @@
+paavo@silber:~/src/git3/fullstack_part3_backend$ npm start
+
+> studymaterialhacks@1.0.0 start /home/paavo/src/git3/fullstack_part3_backend
+> node index.js
+
+/home/paavo/src/git3/fullstack_part3_backend/index.js:13
+    },
+     ^
+
+SyntaxError: Unexpected token ,
+    at new Script (vm.js:83:7)
+    at createScript (vm.js:267:10)
+    at Object.runInThisContext (vm.js:319:10)
+    at Module._compile (internal/modules/cjs/loader.js:685:28)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:733:10)
+    at Module.load (internal/modules/cjs/loader.js:620:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:560:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:552:3)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:775:12)
+    at startup (internal/bootstrap/node.js:300:19)
+npm ERR! code ELIFECYCLE
+npm ERR! errno 1
+npm ERR! studymaterialhacks@1.0.0 start: `node index.js`
+npm ERR! Exit status 1
+npm ERR!
+npm ERR! Failed at the studymaterialhacks@1.0.0 start script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /home/paavo/.npm/_logs/2018-12-07T12_18_30_957Z-debug.log
+paavo@silber:~/src/git3/fullstack_part3_backend$
+paavo@silber:~/src/git3/fullstack_part3_backend$ npm start
+
+> studymaterialhacks@1.0.0 start /home/paavo/src/git3/fullstack_part3_backend
+> node index.js
+
+hello world
+> Server running on port 3001
+
+> notes
+{ notes:
+   [ { id: 1,
+       content: 'HTML on helppoa',
+       date: '2017-12-10T17:30:31.098Z',
+       important: true },
+     { id: 2,
+       content: 'Selain pystyy suorittamaan vain javascriptiä',
+       date: '2017-12-10T18:39:34.091Z',
+       important: false },
+     { id: 3,
+       content: 'HTTP-protokollan tärkeimmät metodit ovat GET ja POST',
+       date: '2017-12-10T19:20:14.298Z',
+       important: true } ] }
+> const json =JSON.stringify(notes);
+undefined
+> json
+'{"notes":[{"id":1,"content":"HTML on helppoa","date":"2017-12-10T17:30:31.098Z","important":true},{"id":2,"content":"Selain pystyy suorittamaan vain javascriptiä","date":"2017-12-10T18:39:34.091Z","important":false},{"id":3,"content":"HTTP-protokollan tärkeimmät metodit ovat GET ja POST","date":"2017-12-10T19:20:14.298Z","important":true}]}'
+> type of notes
+type of notes
+     ^^
+
+SyntaxError: Unexpected identifier
+
+> typeof notes
+'object'
+> typeof json
+'string'
+>
