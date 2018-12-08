@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
-var morgan = require('morgan')
-const cors = require('cors')
+var morgan = require('morgan');
+const cors = require('cors');
 
 
 const repl = require('repl');
@@ -92,15 +92,15 @@ app.get('/info', (req, res) => {
   //http://localhost:3001/info
 
 
-app.get('/notes', (req, res) => {
+app.get('/api/notes', (req, res) => {
     res.json(notes);
-    console.log('app.get /notes',notes);
+    console.log('app.get /api/notes',notes);
 
 });
 
 app.get('/api/persons', (req, res) => {
     res.json(persons);
-    console.log('app.get /persons',persons);
+    console.log('app.get /api/persons',persons);
 });
 
 
@@ -108,17 +108,17 @@ app.get('/api/persons', (req, res) => {
   console.log(eti);
 
 //http://localhost:3001/notes/1
-app.get('/notes/:id', (request, response) => {
+app.get('/api/notes/:id', (request, response) => {
       //const id = request.params.id;
       const id = Number(request.params.id);
-      console.log('app.get /notes/:id',id);
+      console.log('app.get /api/notes/:id',id);
       console.log(notes.map(note => note.id));
       //const note = notes.find(note => note.id === id);
       const note = notes.find(note => {
         console.log('app.get',note.id, typeof note.id, id, typeof id, note.id === id);
         return note.id === id;
       });
-      console.log('app.get /notes/:id',note);
+      console.log('app.get /api/notes/:id',note);
       if ( note ) {             // truthy https://developer.mozilla.org/en-US/docs/Glossary/Truthy
         response.json(note);
       } else {                  // falsy https://developer.mozilla.org/en-US/docs/Glossary/Falsy
@@ -137,7 +137,7 @@ app.get('/api/persons/:id', (request, response) => {
     console.log('app.get /api/persons/:id',person.id, typeof person.id, id, typeof id, person.id === id);
     return person.id === id;
   });
-  console.log('app.get /api/persons/notes/:id',person);
+  console.log('app.get /api/persons/:id',person);
   if ( person ) {             // truthy https://developer.mozilla.org/en-US/docs/Glossary/Truthy
     response.json(person);
   } else {                  // falsy https://developer.mozilla.org/en-US/docs/Glossary/Falsy
@@ -154,9 +154,9 @@ app.delete('/api/persons/:id', (request, response) => {
       response.status(204).end()
 });
 
-app.delete('/notes/:id', (request, response) => {
+app.delete('/api/notes/:id', (request, response) => {
   const id = Number(request.params.id);
-  console.log('app.delete /notes/:id',id);
+  console.log('app.delete /api/notes/:id',id);
   notes = notes.filter(note => note.id !== id)
 
   response.status(204).end()
@@ -194,7 +194,7 @@ function getRandomIntInclusive(min, max) {
   let xyzzy=generateId4persons;
   console.log('generateId4persons',xyzzy);
  */
-  app.post('/notes', (request, response) => {
+  app.post('/api/notes', (request, response) => {
     console.log(request.headers);
     const body = request.body;
 
@@ -209,14 +209,14 @@ function getRandomIntInclusive(min, max) {
       id: generateId4notes()
     };
     notes = notes.concat(note);
-    console.log('app.post /notes',note);
+    console.log('app.post /api/notes',note);
     response.json(note);
   });
 
   //http://localhost:3001/api/persons
   //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
   app.post('/api/persons', (request, response) => {
-    console.log('app.post api/person');
+    console.log('app.post /api/person');
     console.log(request.headers);
     const logger = (request, response, next) => {
       console.log('Method:',request.method);
@@ -247,7 +247,7 @@ function getRandomIntInclusive(min, max) {
         console.log('app.post /api/persons',person);
         response.json(person);
       } else {
-        console.log('app.post api/person duplicate error',duplicate);      
+        console.log('app.post /api/person duplicate error',duplicate);      
         return response.status(400).json({error: 'name must be unique'});
       };
     };
