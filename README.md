@@ -1,5 +1,7 @@
-# fullstack_part3_backend
+# fullstack_part3_backend <https://mysterious-fjord-82967.herokuapp.com/>
 Backend for https://fullstackopen.github.io/osa3/ code, see fullstack_part3_frontend and fullstack as well
+
+## Postman api tests <https://documenter.getpostman.com/view/6101672/RzfiGoDa>
 
 ## Homeworks covered:
 - [x] 3.1 puhelinluettelon backend osa 1 <http://localhost:3001/api/persons>
@@ -18,8 +20,9 @@ npm install
 npm install --save-dev nodemon
 npm install morgan
 npm install cors --save
-
-
+```
+### Please note that the fullstack application is available also on localhost <http://localhost:3001/>
+```
 npm run watch
 ```
 ### Heroku <https://devcenter.heroku.com/articles/heroku-cli>
