@@ -1,3 +1,37 @@
+const mongoose = require('mongoose');
+// print process.argv
+let mongouser=null;
+let mongopassu=null;
+let mlabdburl=null;
+let usemongoose=null;
+let nos=null;
+let pers=null;
+//./mongotrials/startbackend.sh
+
+//console.log('process.argv.lastIndexOf',process.argv.lastIndexOf);
+console.log('process.argv.length',process.argv.length);
+
+process.argv.forEach((val, index) => {
+    console.log(`${index}: ${val}`);
+    if (index===2) { mongouser=val;};
+    if (index===3) { mongopassu=val;};
+    if (index===4) { mlabdburl=val;};
+  });
+let url = 'mongodb://'.concat(mongouser).concat(':').concat(mongopassu).concat('@').concat(mlabdburl); 
+console.log(mongouser,mongopassu,mlabdburl);
+console.log(mlabdburl.length);
+console.log(url);
+
+if (mlabdburl.length>0) {
+  console.log("We are going to use mongoose!");
+  usemongoose = "YES";
+  mongoose.connect(url);
+} else 
+  { usemongoose="NO";
+};
+console.log("usemongoose:",usemongoose);
+
+
 const express = require('express');
 const app = express();
 var morgan = require('morgan');
@@ -6,11 +40,7 @@ const cors = require('cors');
 
 const repl = require('repl');
 const bodyParser = require('body-parser');
-let nos=require('./datafiles/Notes/notes');
-let pers=require('./datafiles/PhoneBook/persons');
 
-let notes=nos;
-let persons=pers;
 
 //let notes=require('./datafiles/Notes/notes');
 //import persons from './datafiles/PhoneBook';
@@ -52,9 +82,66 @@ app.use(morgan(function (tokens, req, res) {
 //app.use(morgan('tiny'));      //FIXME hw3.7 morgan('tiny')
 
 console.log('hello world');
-console.log('notes',notes);
-console.log('persons',persons);
-console.log('persons.length',persons.length);
+
+if (usemongoose==="NO") {
+  let nos=require('./datafiles/Notes/notes');
+  let pers=require('./datafiles/PhoneBook/persons');
+  
+  let notes=nos;
+  let persons=pers;
+    
+  console.log('notes',notes);
+  console.log('persons',persons);
+  console.log('persons.length',persons.length);
+} else if (usemongoose==="YES") {
+  const Note = mongoose.model('Note', {
+    content: String,
+    date: Date,
+    important: Boolean
+  });
+  const formatNote = (note) => {
+    return {
+      content: note.content,
+      date: note.date,
+      important: note.important,
+      id: note._id
+    };
+  };
+
+  Note
+  .find({})
+  .then(result => {
+    console.log('find all notes');
+    nos=result
+    notes=result.map(formatNote);
+    mongoose.connection.close();
+    console.log("nos",nos);
+    console.log("notes",notes);
+  });
+/** person info via mongoose */
+  const Person = mongoose.model('Person', {
+    name: String,
+    phonenumber: String
+  });
+  const formatPerson = (person) => {
+    return {
+      name: person.name,
+      phonenumber: person.name,
+      id: person._id
+    };
+  };
+
+  Person
+  .find({})
+  .then(result => {
+    console.log('find all persons');
+    pers=result
+    persons=result.map(formatPerson);
+    mongoose.connection.close();
+    console.log("pers",pers);
+    console.log("persons",persons);
+  });
+};
 //FIXME hw3.11 - add static files support for build directory e.g. fetching the index.js frontend stuff from there
 
 app.use(express.static('build'));
@@ -65,8 +152,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/info', (req, res) => {
-    personsCnt = persons.length;
-    notesCnt = notes.length;
     // Use of Date.now() function 
     var dn = Date(Date.now()); 
     
@@ -74,8 +159,11 @@ app.get('/info', (req, res) => {
     requestDt = dn.toString();
   
 
-    // Printing the current date                     
-    console.log('app.get /info', personsCnt, requestDt);
+    // Printing the current date      
+    if (usemongoose==="NO") {               
+      personsCnt = persons.length;
+      notesCnt = notes.length;
+      console.log('app.get /info', personsCnt, requestDt);
     res.send('PhoneBook has '
               +personsCnt
               +' persons'
@@ -88,10 +176,27 @@ app.get('/info', (req, res) => {
               +'/api/persons '
               +personsCnt
               );
+    } else {
+      personsCnt = persons.length;
+      notesCnt = notes.length;
+      res.send('We are furiously working to get the info right for mongodb'
+              +'<br>PhoneBook has '
+              +personsCnt
+              +' persons'
+              +'<br>'
+              +requestDt
+              +'<br>'
+              +'/api/notes '
+              +notesCnt
+              +'<br>'
+              +'/api/persons '
+              +personsCnt);
+    };
+    //FIXME add counts baked from mongodb
 });
   //http://localhost:3001/info
 
-
+if (usemongoose==="NO") {                // we want to run this backend on top of selfmade json access
 app.get('/api/notes', (req, res) => {
     res.json(notes);
     console.log('app.get /api/notes',notes);
@@ -252,7 +357,10 @@ function getRandomIntInclusive(min, max) {
       };
     };
   });
+} else if (usemongoose==="YES") {       // we want to run this backend on top of mongodb
+  //FIXME mongodb code here 
 
+};
   const error = (request, response) => {
     response.status(404).send({error: 'unknown endpoint'});
   };
@@ -270,6 +378,8 @@ function getRandomIntInclusive(min, max) {
   
   const msg = 'message';
 
+  if (usemongoose==="NO") {
   repl.start('> ').context.notes = notes;
+  };
 
 //console.log(request.headers)
