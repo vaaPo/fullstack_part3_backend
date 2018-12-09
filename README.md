@@ -63,6 +63,11 @@ heroku logs -t
 ```
 heroku addons:create mongolab:sandbox
 ```
+# MOÓNGOOSE <http://mongoosejs.com/index.html>
+```
+npm install mongoose --save
+```
+
 
 # MONGODB on linux
 <https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/>
