@@ -52,10 +52,65 @@ git commit -m "Initiate app."
 git push heroku master
 '''
 #### surf to <https://mysterious-fjord-82967.herokuapp.com/notes>
+## check logs regularly with
 '''
 heroku logs
 heroku logs -t
 '''
 #### fix frontends baseurl to https://mysterious-fjord-82967.herokuapp.com/
 
+# MONGODB via mlab in Heroku
+```
+heroku addons:create mongolab:sandbox
+```
+
+# MONGODB on linux
+<https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/>
+```
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+lsb_release -a
+for 16.04
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+cat /etc/mongod.conf
+sudo service mongod start
+sudo tail -f /var/log/mongodb/mongod.log &
+sudo service mongod stop
+sudo service mongod restart
+mongo mongodb://127.0.0.1:27017
+```
+### mongo shell <https://docs.mongodb.com/manual/mongo/>
+## getting started <https://docs.mongodb.com/manual/tutorial/getting-started/>
+<https://docs.mongodb.com/manual/reference/sql-comparison/>
+```
+mongo
+db
+show dbs
+db.myCollection.insertOne( { x: 1 } );
+db.myCollection.find().pretty()
+db.myCollection.findOne()
+db.inventory.insertMany([
+   // MongoDB adds the _id field with an ObjectId if _id is not present
+   { item: "journal", qty: 25, status: "A",
+       size: { h: 14, w: 21, uom: "cm" }, tags: [ "blank", "red" ] },
+   { item: "notebook", qty: 50, status: "A",
+       size: { h: 8.5, w: 11, uom: "in" }, tags: [ "red", "blank" ] },
+   { item: "paper", qty: 100, status: "D",
+       size: { h: 8.5, w: 11, uom: "in" }, tags: [ "red", "blank", "plain" ] },
+   { item: "planner", qty: 75, status: "D",
+       size: { h: 22.85, w: 30, uom: "cm" }, tags: [ "blank", "red" ] },
+   { item: "postcard", qty: 45, status: "A",
+       size: { h: 10, w: 15.25, uom: "cm" }, tags: [ "blue" ] }
+]);
+db.inventory.find().pretty()
+db.inventory.find({})
+db.inventory.find( { status: "D" } )
+db.inventory.find( { size: { h: 14, w: 21, uom: "cm" } } )
+db.inventory.find( { "size.uom": "in" } )
+db.inventory.find( { tags: "red" } )
+db.inventory.find( { tags: ["red", "blank"] } )
+
+
+```
 
