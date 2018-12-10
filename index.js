@@ -169,6 +169,20 @@ if (process.argv.length===5) {
         });
 
     }); //app.post('/api/person'
+    app.delete('/api/persons/:id', (request, response) => {
+      console.log('app.delete /api/persons/:id',request.params.id);
+      mongoose.set('useFindAndModify', false);
+      modelspersons.Person
+        .findByIdAndRemove(request.params.id)
+//        .findOneAndRemove({ _id: request.params.id })
+        .then(result => {
+          response.status(204).end(); //no content
+        })
+        .catch(error => {
+          console.log(error);
+          response.status(400).send({ error: 'malformatted id' })
+        })
+    }); //app.delete('/api/persons/:id
 
 
     app.get('/api/notes', (request, response) => {

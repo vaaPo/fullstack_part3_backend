@@ -18,8 +18,8 @@ Backend for https://fullstackopen.github.io/osa3/ code, see fullstack_part3_fron
 - [x] 3.12 tietokanta komentoriviltä : clouded mongodb in mlab (mongo.js) node mongo.js mlabuser mlabpass mlabdb name phonenumber
 - [x] 3.13 puhelinluettelo ja tietokanta, osa 1 : GET backend and frontend to use clouded mongodb via developed moongoose TAPI's 
 - [x] 3.14* puhelinluettelo ja tietokanta, osa 2 : formatNote converted to moongoose schemas static method <http://mongoosejs.com/docs/guide.html#statics>
-- [] 3.15 puhelinluettelo ja tietokanta, osa 3 : POST person without duplicate checking but with .catch errors
-- [] 3.16 puhelinluettelo ja tietokanta, osa 4 : DELETE person
+- [x] 3.15 puhelinluettelo ja tietokanta, osa 3 : POST person without duplicate checking but with .catch errors
+- [x] 3.16 puhelinluettelo ja tietokanta, osa 4 : DELETE person
 - [] 3.17* puhelinluettelo ja tietokanta, osa 5 : PUT person, update phonenumber for DUPLICATE name
 - [] 3.18* puhelinluettelo ja tietokanta, osa 6 : GET api/persons/:id /info + POSTMAN
 - [] 3.19* puhelinluettelo ja tietokanta, osa 7 : POST person, prevent duplicate phonenumbers via API
