@@ -184,6 +184,32 @@ if (process.argv.length===5) {
         })
     }); //app.delete('/api/persons/:id
 
+/**
+ * const updatepromised = (id, newObject) => {
+    const request=axios.put(`${baseUrl}/${id}`, newObject);
+    return request.then(response => response.data);
+};
+ */
+app.put('/api/persons/:id', (request, response) => {
+  console.log('app.put /api/persons request.params.id', request.params.id);
+  const body = request.body;
+  console.log('app.put body.name:',body.name);
+  console.log('app.put body.phonenumber:',body.phonenumber);
+    
+  if (body.name === undefined) {
+    return response.status(400).json({error: 'name missing'});
+  };
+
+  modelspersons.Person  
+  .findByIdAndUpdate(request.params.id,
+    { $set: { phonenumber: body.phonenumber}},
+    {new: true},
+    function (err,person)
+    {if (err) return response.status(400).send({ error: 'something went royally wrong with your put' });
+    response.send(person);
+  });
+}); //app.put('/api/persons/:id'
+
 
     app.get('/api/notes', (request, response) => {
   

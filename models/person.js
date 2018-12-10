@@ -13,7 +13,7 @@ const Person = mongoose.model('Person', {
 const formatPerson = (person) => {
     return {
       name: person.name,
-      phonenumber: person.name,
+      phonenumber: person.phonenumber,
       id: person._id
     };
   };
