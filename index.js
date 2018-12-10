@@ -172,6 +172,42 @@ if (process.argv.length===5) {
         });
 
     }); //app.post('/api/notes'
+/**
+ * const updatepromised = (id, newObject) => {
+    const request=axios.put(`${baseUrl}/${id}`, newObject);
+    return request.then(response => response.data);
+};
+ */
+
+app.put('/api/notes/:id', (request, response) => {
+  console.log('app.put request.params.id', request.params.id);
+//  console.log('app.put request.params.body', request.params.body);
+  const body = request.body;
+  console.log('app.put body.content:',body.content);
+  console.log('app.put body.important:',body.important);
+    
+  if (body.content === undefined) {
+    return response.status(400).json({error: 'content missing'});
+  };
+  modelsnote.Note
+  .findByIdAndUpdate(request.params.id,
+    { $set: { important: body.important}},
+    {new: true},
+    function (err,note)
+    {if (err) return response.status(400).send({ error: 'something went royally wrong with your put' });
+    response.send(note);
+  });
+/**
+  const note = new modelsnote.Note({
+    content: body.content,
+    important: body.important || false,
+    date: new Date()
+  });
+ */
+}); //app.put('/api/notes/:id'
+
+
+
     app.get('/api/notes/:id', (request, response) => {
       //mongoose.connect(url);
       //console.log('mongoose.connect(url) done');
