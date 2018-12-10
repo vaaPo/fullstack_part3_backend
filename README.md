@@ -16,8 +16,8 @@ Backend for https://fullstackopen.github.io/osa3/ code, see fullstack_part3_fron
 - [x] 3.10 puhelinluettelon backend osa 10 : deployed backend to Heroku + POSTMAN <https://documenter.getpostman.com/view/6101672/RzfiGoDa>
 - [x] 3.11 puhelinluettelo full stack: frontend build added to backend (build.sh) and deployed to Heroku, works also local see code rest tests
 - [x] 3.12 tietokanta komentoriviltä : clouded mongodb in mlab (mongo.js) node mongo.js mlabuser mlabpass mlabdb name phonenumber
-- [] 3.13 puhelinluettelo ja tietokanta, osa 1 : GET backend and frontend to use clouded mongodb via developed moongoose TAPI's 
-- [] 3.14* puhelinluettelo ja tietokanta, osa 2 : formatNote converted to moongoose schemas static method <http://mongoosejs.com/docs/guide.html#statics>
+- [x] 3.13 puhelinluettelo ja tietokanta, osa 1 : GET backend and frontend to use clouded mongodb via developed moongoose TAPI's 
+- [x] 3.14* puhelinluettelo ja tietokanta, osa 2 : formatNote converted to moongoose schemas static method <http://mongoosejs.com/docs/guide.html#statics>
 - [] 3.15 puhelinluettelo ja tietokanta, osa 3 : POST person without duplicate checking but with .catch errors
 - [] 3.16 puhelinluettelo ja tietokanta, osa 4 : DELETE person
 - [] 3.17* puhelinluettelo ja tietokanta, osa 5 : PUT person, update phonenumber for DUPLICATE name
