@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 // print process.argv
+if ( process.env.NODE_ENV !== 'production' ) { //HW3.21* if not production then use .env and dev mongodb in mlab
+  require('dotenv').config();
+};
+
 
 // lesson learned about 'initializing' these, if they are initialized inside if {} you get easily hurted :)
 let mongouser = null;
