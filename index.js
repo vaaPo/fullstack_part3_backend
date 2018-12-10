@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 // print process.argv
+
+// lesson learned about 'initializing' these, if they are initialized inside if {} you get easily hurted :)
 let mongouser = null;
 let mongopassu = null;
 let mlabdburl = null;
@@ -29,8 +31,35 @@ if (process.argv.length===5) {
     console.log(mongouser,mongopassu,mlabdburl);
     console.log(mlabdburl.length);
     console.log(url);
-      usemongoose = "YES";
+    usemongoose = "YES";
     mongoose.connect(url);
+    //    const Note = require('./models/notes');
+    const modelsnotes = require('./models/notes');
+    console.log('require ./models/notes');
+    modelsnotes.Note
+    .find({})
+    .then(result => {
+      console.log('find all notes');
+      nos=result
+      notes =result.map(modelsnotes.formatNote);
+      mongoose.connection.close();
+      console.log("nos",nos);
+      console.log("notes",notes);
+    });
+    //    const Person = require('./models/persons')
+    const modelspersons = require('./models/persons');
+    console.log('require ./models/persons');
+
+    modelspersons.Person
+    .find({})
+    .then(result => {
+      console.log('find all persons');
+      pers=result
+      persons =result.map(modelspersons.formatPerson);
+      mongoose.connection.close();
+      console.log("pers",pers);
+      console.log("persons",persons);
+    });
   } 
 } else { 
   usemongoose="NO";
@@ -100,11 +129,12 @@ if (usemongoose==="NO") {
   console.log('notes',notes);
   console.log('persons',persons);
   console.log('persons.length',persons.length);
-  console.log('1 why me notes:',notes);
+//  console.log('1 why me notes:',notes);
 
 } else if (usemongoose==="YES") {
 
-  const Note = mongoose.model('Note', {
+/** IMPORT THESE FROM models/notes.js
+ *   const Note = mongoose.model('Note', {
     content: String,
     date: Date,
     important: Boolean
@@ -117,7 +147,9 @@ if (usemongoose==="NO") {
       id: note._id
     };
   };
-
+*/
+//const Note = require('./models/notes');  // lifted near mongo connection
+/** lift me too...
   Note
   .find({})
   .then(result => {
@@ -128,7 +160,9 @@ if (usemongoose==="NO") {
     console.log("nos",nos);
     console.log("notes",notes);
   });
-/** person info via mongoose */
+ */
+
+/** person info via mongoose 
   const Person = mongoose.model('Person', {
     name: String,
     phonenumber: String
@@ -140,7 +174,10 @@ if (usemongoose==="NO") {
       id: person._id
     };
   };
+*/
+//const Person = require('./models/persons');  // lifted near mongo connection, see abover
 
+/** Lift me too 
   Person
   .find({})
   .then(result => {
@@ -151,10 +188,11 @@ if (usemongoose==="NO") {
     console.log("pers",pers);
     console.log("persons",persons);
   });
+ */
 };
 //FIXME hw3.11 - add static files support for build directory e.g. fetching the index.js frontend stuff from there
 
-console.log('2 why me notes:',notes); 
+//console.log('2 why me notes:',notes); 
 
 
 app.use(express.static('build'));
@@ -221,8 +259,8 @@ app.get('/api/persons', (req, res) => {
     console.log('app.get /api/persons',persons);
 });
 
-console.log('why me notes:',notes); 
-const eti=notes.find(note=>note.id===2);
+//console.log('why me notes:',notes); 
+const eti=notes.find(note=>note.id===2);            // this wont bomb, if doesnt exist
 console.log("notes.find(note=>note.id===2)",eti);
 
 //http://localhost:3001/notes/1
