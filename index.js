@@ -158,7 +158,7 @@ if (process.argv.length===5) {
         phonenumber: body.phonenumber,
       });
 
-      person
+/**     person
         .save()
         .then(savedPerson => {
           response.json(modelspersons.formatPerson(savedPerson));
@@ -167,6 +167,18 @@ if (process.argv.length===5) {
           console.log(error)
           response.status(400).send({ error: 'something went royally wrong with your post' });  // bad request
         });
+    */
+        person                  //FIXME promise chain v2 for person post
+        .save()
+        .then(modelspersons.formatPerson) 
+        .then(savedAndFormattedPerson => {
+          response.json(savedAndFormattedPerson)
+        })
+        .catch(error => {
+          //console.log(error)
+          response.status(400).send({ error: 'something went royally wrong with your post' });  // bad request
+        });
+  
 
     }); //app.post('/api/person'
     app.delete('/api/persons/:id', (request, response) => {
@@ -241,7 +253,7 @@ app.put('/api/persons/:id', (request, response) => {
         important: body.important || false,
         date: new Date()
       });
-
+/**
       note
         .save()
         .then(savedNote => {
@@ -251,7 +263,26 @@ app.put('/api/persons/:id', (request, response) => {
           //console.log(error)
           response.status(400).send({ error: 'something went royally wrong with your post' });  // bad request
         });
-
+ */
+/**      note                  //FIXME promise chain v1
+      .save()
+      .then(savedNote => {
+        return modelsnote.formatNote(savedNote);
+      })
+      .then(savedAndFormattedNote => {
+        response.json(savedAndFormattedNote)
+      });
+ */
+      note                  //FIXME promise chain v2
+      .save()
+      .then(modelsnote.formatNote)
+      .then(savedAndFormattedNote => {
+        response.json(savedAndFormattedNote)
+      })
+      .catch(error => {
+        //console.log(error)
+        response.status(400).send({ error: 'something went royally wrong with your post' });  // bad request
+      });
     }); //app.post('/api/notes'
 
 app.put('/api/notes/:id', (request, response) => {
@@ -271,6 +302,24 @@ app.put('/api/notes/:id', (request, response) => {
     {if (err) return response.status(400).send({ error: 'something went royally wrong with your put' });
     response.send(note);
   });
+  /**
+   *   const body = request.body
+
+  const note = {
+    content: body.content,
+    important: body.important
+  }
+
+  Note
+    .findByIdAndUpdate(request.params.id, note, { new: true } )
+    .then(updatedNote => {
+      response.json(formatNote(updatedNote))
+    })
+    .catch(error => {
+      console.log(error)
+      response.status(400).send({ error: 'malformatted id' })
+    })
+   */
 }); //app.put('/api/notes/:id'
 
 
