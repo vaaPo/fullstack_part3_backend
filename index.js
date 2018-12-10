@@ -10,61 +10,8 @@ let nos = null;
 let pers = null;
 let notes = null;
 let persons = null;
-
-
-//./mongotrials/startbackend.sh
-
-//console.log('process.argv.lastIndexOf',process.argv.lastIndexOf);
-console.log('process.argv.length',process.argv.length);
-
-process.argv.forEach((val, index) => {
-    console.log(`${index}: ${val}`);
-    if (index===2) { mongouser=val;};
-    if (index===3) { mongopassu=val;};
-    if (index===4) { mlabdburl=val;};
-  });
-
-if (process.argv.length===5) {
-  if (mlabdburl.length>0) {
-    console.log("We are going to use mongoose!");
-    let url = 'mongodb://'.concat(mongouser).concat(':').concat(mongopassu).concat('@').concat(mlabdburl); 
-    console.log(mongouser,mongopassu,mlabdburl);
-    console.log(mlabdburl.length);
-    console.log(url);
-    usemongoose = "YES";
-    mongoose.connect(url);
     //    const Note = require('./models/notes');
-    const modelsnotes = require('./models/notes');
-    console.log('require ./models/notes');
-    modelsnotes.Note
-    .find({})
-    .then(result => {
-      console.log('find all notes');
-      nos=result
-      notes =result.map(modelsnotes.formatNote);
-      mongoose.connection.close();
-      console.log("nos",nos);
-      console.log("notes",notes);
-    });
-    //    const Person = require('./models/persons')
-    const modelspersons = require('./models/persons');
-    console.log('require ./models/persons');
-
-    modelspersons.Person
-    .find({})
-    .then(result => {
-      console.log('find all persons');
-      pers=result
-      persons =result.map(modelspersons.formatPerson);
-      mongoose.connection.close();
-      console.log("pers",pers);
-      console.log("persons",persons);
-    });
-  } 
-} else { 
-  usemongoose="NO";
-};
-console.log("usemongoose:",usemongoose);
+// LOTS OF middleware stuff here:
 
 
 const express = require('express');
@@ -117,6 +64,113 @@ app.use(morgan(function (tokens, req, res) {
 //app.use(morgan('tiny'));      //FIXME hw3.7 morgan('tiny')
 
 console.log('hello world');
+
+//./mongotrials/startbackend.sh
+
+//console.log('process.argv.lastIndexOf',process.argv.lastIndexOf);
+console.log('process.argv.length',process.argv.length);
+
+process.argv.forEach((val, index) => {
+    console.log(`${index}: ${val}`);
+    if (index===2) { mongouser=val;};
+    if (index===3) { mongopassu=val;};
+    if (index===4) { mlabdburl=val;};
+  });
+
+if (process.argv.length===5) {
+  if (mlabdburl.length>0) {
+    console.log("We are going to use mongoose!");
+    let url = 'mongodb://'.concat(mongouser).concat(':').concat(mongopassu).concat('@').concat(mlabdburl); 
+    console.log(mongouser,mongopassu,mlabdburl);
+    console.log(mlabdburl.length);
+    console.log(url);
+    usemongoose = "YES";
+    mongoose.connect(url);
+    console.log('mongoose.connect(url) done');
+    const modelsnote = require('./models/note');
+    console.log('require ./models/note');
+    modelsnote.Note
+    .find({})
+    .then(result => {
+      console.log('find all notes');
+      nos=result
+      notes =result.map(modelsnote.formatNote);
+      mongoose.connection.close();
+      console.log("nos",nos);
+      console.log("notes",notes);
+    });
+    //    const Person = require('./models/persons')
+    const modelspersons = require('./models/person');
+    console.log('require ./models/persons');
+
+    modelspersons.Person
+    .find({})
+    .then(result => {
+      console.log('find all persons');
+      pers=result
+      persons =result.map(modelspersons.formatPerson);
+      mongoose.connection.close();
+      console.log('mongoose.connection.close()');
+      console.log("pers",pers);
+      console.log("persons",persons);
+    });
+    app.get('/api/notes', (request, response) => {
+      //console.log('mongodb /api/notes can see url?',url);
+      mongoose.connect(url);
+      console.log('mongoose.connect(url) done');
+  
+      modelsnote.Note
+        .find({}, {__v: 0})
+        .then(notes => {
+          response.json(notes.map(modelsnote.formatNote))
+          mongoose.connection.close();
+          console.log('mongoose.connection.close()');
+         });
+    });
+    app.post('/api/notes', (request, response) => {
+      const body = request.body;
+    
+      if (body.content === undefined) {
+        return response.status(400).json({error: 'content missing'});
+      };
+    
+      const note = new modelsnote.Note({
+        content: body.content,
+        important: body.important || false,
+        date: new Date()
+      });
+
+      mongoose.connect(url);
+      console.log('mongoose.connect(url) done');
+    
+      note
+        .save()
+        .then(savedNote => {
+          response.json(modelsnote.formatNote(savedNote));
+          mongoose.connection.close();
+          console.log('mongoose.connection.close()');
+        })
+    }); //app.post('/api/notes'
+    app.get('/api/notes/:id', (request, response) => {
+      mongoose.connect(url);
+      console.log('mongoose.connect(url) done');
+
+      modelsnote.Note
+        .findById(request.params.id)
+        .then(note => {
+          response.json(modelsnote.formatNote(note));
+          mongoose.connection.close();
+          console.log('mongoose.connection.close()');
+        })
+    }); //app.get('/api/notes/:id'
+    
+    
+  } 
+} else { 
+  usemongoose="NO";
+};
+console.log("usemongoose:",usemongoose);
+
 
 if (usemongoose==="NO") {
   console.log('We are using local static files due mongoose is',usemongoose);
@@ -409,7 +463,9 @@ function getRandomIntInclusive(min, max) {
     };
   });
 } else if (usemongoose==="YES") {       // we want to run this backend on top of mongodb
-  //FIXME mongodb code here 
+  //FIXME mongodb code here - hmm l,ets lift up, they wont work here :)
+
+  
 
 };
   const error = (request, response) => {

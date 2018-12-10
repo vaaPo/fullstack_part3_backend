@@ -17,6 +17,15 @@ const formatPerson = (person) => {
       id: person._id
     };
   };
+module.exports = {
+    Person: Person,
+    formatPerson: formatPerson
+};
+/**
+ * var modelsperson = require('./models/person');
+...
+modelsperson.Person.findOne(...
+ */
 
 /** GENERIC formatNote
   const formatPerson = (person) => {
@@ -30,12 +39,3 @@ const formatPerson = (person) => {
  */
 
 //module.exports = Person; 
-module.exports = {
-    Person: Person,
-    formatPerson: formatPerson
-};
-/**
- * var modelspersons = require('./models/persons');
-...
-modelspersons.Person.findOne(...
- */

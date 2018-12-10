@@ -6,6 +6,10 @@ const mongoose = require('mongoose');
 //const url = 'mongodb://fullstack:sekred@ds211088.mlab.com:11088/fullstack-notes';
 
 //mongoose.connect(url);
+//console.log('mongoose.connect(url) done');
+
+//console.log('./models/notes.js can see url?',url);
+
 
 const Note = mongoose.model('Note', {
   content: String,
@@ -26,9 +30,9 @@ module.exports = {
 };
 
 /**
- * var modelsnotes = require('./models/notes');
+ * var modelsnote = require('./models/note');
 ...
-modelsnotes.Note.findOne(...
+modelsnote.Note.findOne(...
  */
 
 
