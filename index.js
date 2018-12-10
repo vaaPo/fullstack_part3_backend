@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
 // print process.argv
-let mongouser=null;
-let mongopassu=null;
-let mlabdburl=null;
-let usemongoose=null;
-let nos=null;
-let pers=null;
+let mongouser = null;
+let mongopassu = null;
+let mlabdburl = null;
+let usemongoose = null;
+let nos = null;
+let pers = null;
+let notes = null;
+let persons = null;
+
+
 //./mongotrials/startbackend.sh
 
 //console.log('process.argv.lastIndexOf',process.argv.lastIndexOf);
@@ -17,17 +21,19 @@ process.argv.forEach((val, index) => {
     if (index===3) { mongopassu=val;};
     if (index===4) { mlabdburl=val;};
   });
-let url = 'mongodb://'.concat(mongouser).concat(':').concat(mongopassu).concat('@').concat(mlabdburl); 
-console.log(mongouser,mongopassu,mlabdburl);
-console.log(mlabdburl.length);
-console.log(url);
 
-if (mlabdburl.length>0) {
-  console.log("We are going to use mongoose!");
-  usemongoose = "YES";
-  mongoose.connect(url);
-} else 
-  { usemongoose="NO";
+if (process.argv.length===5) {
+  if (mlabdburl.length>0) {
+    console.log("We are going to use mongoose!");
+    let url = 'mongodb://'.concat(mongouser).concat(':').concat(mongopassu).concat('@').concat(mlabdburl); 
+    console.log(mongouser,mongopassu,mlabdburl);
+    console.log(mlabdburl.length);
+    console.log(url);
+      usemongoose = "YES";
+    mongoose.connect(url);
+  } 
+} else { 
+  usemongoose="NO";
 };
 console.log("usemongoose:",usemongoose);
 
@@ -42,7 +48,7 @@ const repl = require('repl');
 const bodyParser = require('body-parser');
 
 
-//let notes=require('./datafiles/Notes/notes');
+//let notes =require('./datafiles/Notes/notes');
 //import persons from './datafiles/PhoneBook';
 
 app.use(cors()); //https://github.com/expressjs/cors
@@ -84,16 +90,20 @@ app.use(morgan(function (tokens, req, res) {
 console.log('hello world');
 
 if (usemongoose==="NO") {
-  let nos=require('./datafiles/Notes/notes');
-  let pers=require('./datafiles/PhoneBook/persons');
+  console.log('We are using local static files due mongoose is',usemongoose);
+  nos = require('./datafiles/Notes/notes');
+  pers = require('./datafiles/PhoneBook/persons');
   
-  let notes=nos;
-  let persons=pers;
+  notes = nos;
+  persons = pers;
     
   console.log('notes',notes);
   console.log('persons',persons);
   console.log('persons.length',persons.length);
+  console.log('1 why me notes:',notes);
+
 } else if (usemongoose==="YES") {
+
   const Note = mongoose.model('Note', {
     content: String,
     date: Date,
@@ -113,7 +123,7 @@ if (usemongoose==="NO") {
   .then(result => {
     console.log('find all notes');
     nos=result
-    notes=result.map(formatNote);
+    notes =result.map(formatNote);
     mongoose.connection.close();
     console.log("nos",nos);
     console.log("notes",notes);
@@ -136,13 +146,16 @@ if (usemongoose==="NO") {
   .then(result => {
     console.log('find all persons');
     pers=result
-    persons=result.map(formatPerson);
+    persons =result.map(formatPerson);
     mongoose.connection.close();
     console.log("pers",pers);
     console.log("persons",persons);
   });
 };
 //FIXME hw3.11 - add static files support for build directory e.g. fetching the index.js frontend stuff from there
+
+console.log('2 why me notes:',notes); 
+
 
 app.use(express.static('build'));
 
@@ -208,9 +221,9 @@ app.get('/api/persons', (req, res) => {
     console.log('app.get /api/persons',persons);
 });
 
-
-  const eti=notes.find(note=>note.id===2);
-  console.log(eti);
+console.log('why me notes:',notes); 
+const eti=notes.find(note=>note.id===2);
+console.log("notes.find(note=>note.id===2)",eti);
 
 //http://localhost:3001/notes/1
 app.get('/api/notes/:id', (request, response) => {
