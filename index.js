@@ -146,6 +146,31 @@ if (process.argv.length===5) {
         })
     }); //app.get('/api/person/:id'
 
+    app.post('/api/persons', (request, response) => {
+      const body = request.body;
+    
+      if (body.name === undefined) {
+        return response.status(400).json({error: 'name missing'});
+      };
+    
+      const person = new modelspersons.Person({
+        name: body.name,
+        phonenumber: body.phonenumber,
+      });
+
+      person
+        .save()
+        .then(savedPerson => {
+          response.json(modelspersons.formatPerson(savedPerson));
+        })
+        .catch(error => {
+          console.log(error)
+          response.status(400).send({ error: 'something went royally wrong with your post' });  // bad request
+        });
+
+    }); //app.post('/api/person'
+
+
     app.get('/api/notes', (request, response) => {
   
       modelsnote.Note
