@@ -33,8 +33,13 @@ npm install
 npm install --save-dev nodemon
 npm install morgan
 npm install cors --save
+npm install dotenv --save
 ```
 ### Please note that the fullstack application is available also on localhost <http://localhost:3001/>
+#### MONGODB_URI environment variable needs to be set
+something like this MONGODB_URI=mongodb://l0ser:asd@ds211013288.mlab.com:1112088/asd-nasds
+
+
 ```
 npm run watch
 ```

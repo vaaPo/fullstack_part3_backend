@@ -10,6 +10,7 @@ let nos = null;
 let pers = null;
 let notes = null;
 let persons = null;
+let newurl = null;
     //    const Note = require('./models/notes');
 // LOTS OF middleware stuff here:
 
@@ -77,12 +78,19 @@ process.argv.forEach((val, index) => {
     if (index===4) { mlabdburl=val;};
   });
 
-if (process.argv.length===5) {
-  if (mlabdburl.length>0) {
+//const url = process.env.MONGODB_URI
+
+if (process.argv.length===5 || process.env.MONGODB_URI.length>0) {
+//  if (mlabdburl.length>0 || process.env.MONGODB_URI.length>0) {
     console.log("We are going to use mongoose!");
-    let url = 'mongodb://'.concat(mongouser).concat(':').concat(mongopassu).concat('@').concat(mlabdburl); 
-    console.log(mongouser,mongopassu,mlabdburl);
-    console.log(mlabdburl.length);
+    if (process.env.MONGODB_URI.length>0) {
+      newurl=process.env.MONGODB_URI;
+    } else {
+      newurl = 'mongodb://'.concat(mongouser).concat(':').concat(mongopassu).concat('@').concat(mlabdburl); 
+      console.log(mongouser,mongopassu,mlabdburl);
+      console.log(mlabdburl.length);
+    };
+    let url=newurl;
     console.log(url);
     usemongoose = "YES";
     mongoose.connect(url);
@@ -373,7 +381,7 @@ app.put('/api/notes/:id', (request, response) => {
     }); //app.delete('/api/notes/:id
     
     
-  } 
+  //} 
 } else { 
   usemongoose="NO";
 };
