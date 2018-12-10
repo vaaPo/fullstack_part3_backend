@@ -122,10 +122,24 @@ if (process.argv.length===5) {
       modelsnote.Note
         .find({}, {__v: 0})
         .then(notes => {
-          response.json(notes.map(modelsnote.formatNote))
+          if (notes) {
+            response.json(notes.map(modelsnote.formatNote));
+            mongoose.connection.close();
+            console.log('mongoose.connection.close()');
+            } else {
+            response.status(404).end();         // request ok format, but not found = 404 !!!
+            mongoose.connection.close();
+            console.log('mongoose.connection.close() due not found error 404');
+            };
+
+         })
+        .catch(error => {
+          //console.log(error)
+          response.status(400).send({ error: 'something went royally wrong in your request' });  // bad request
           mongoose.connection.close();
-          console.log('mongoose.connection.close()');
-         });
+          console.log('mongoose.connection.close() due bad request error 400');
+        });
+
     });
     app.post('/api/notes', (request, response) => {
       const body = request.body;
@@ -150,6 +164,13 @@ if (process.argv.length===5) {
           mongoose.connection.close();
           console.log('mongoose.connection.close()');
         })
+        .catch(error => {
+          //console.log(error)
+          response.status(400).send({ error: 'something went royally wrong with your post' });  // bad request
+          mongoose.connection.close();
+          console.log('mongoose.connection.close() due bad request error 400');
+        });
+
     }); //app.post('/api/notes'
     app.get('/api/notes/:id', (request, response) => {
       mongoose.connect(url);
@@ -158,9 +179,20 @@ if (process.argv.length===5) {
       modelsnote.Note
         .findById(request.params.id)
         .then(note => {
-          response.json(modelsnote.formatNote(note));
+          if (note) {
+            response.json(modelsnote.formatNote(note));
+          } else {
+            response.status(404).end();         // request ok format, but id not found = 404 !!!
+          };
+          
           mongoose.connection.close();
-          console.log('mongoose.connection.close()');
+          console.log('mongoose.connection.close() due not found error 404');
+        })
+        .catch(error => {
+          //console.log(error)
+          response.status(400).send({ error: 'malformatted id' });  // bad request
+          mongoose.connection.close();
+          console.log('mongoose.connection.close() due bad request error 400');
         })
     }); //app.get('/api/notes/:id'
     
