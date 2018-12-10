@@ -129,9 +129,23 @@ if (process.argv.length===5) {
         console.log(error)
         response.status(400).send({ error: 'something went royally wrong in your request' });  // bad request
       });
-
-  
     }); // app.get('api/persons'
+
+    app.get('/api/persons/:id', (request, response) => {
+      modelspersons.Person
+        .findById(request.params.id)
+        .then(person => {
+          if (person) {
+            response.json(modelspersons.formatPerson(person));
+          } else {
+            response.status(404).end();         // request ok format, but id not found = 404 !!!
+          };
+        })
+        .catch(error => {
+          response.status(400).send({ error: 'malformatted id' });  // bad request
+        })
+    }); //app.get('/api/person/:id'
+
     app.get('/api/notes', (request, response) => {
   
       modelsnote.Note
