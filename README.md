@@ -24,7 +24,7 @@ Backend for https://fullstackopen.github.io/osa3/ code, see fullstack_part3_fron
 - [x] 3.18* puhelinluettelo ja tietokanta, osa 6 : GET api/persons/:id /info + POSTMAN
 - [x] 3.19* puhelinluettelo ja tietokanta, osa 7 : POST person, prevent duplicate phonenumbers via API
 - [x] 3.20 tietokantaa käyttävä versio internettiin : FULLSTACK to heroku - works also on localhost
-- [] 3.21* eriytetty sovelluskehitys- ja tuotantotietokanta : separated mongodb for dev and prod
+- [x] 3.21* eriytetty sovelluskehitys- ja tuotantotietokanta : separated mongodb for dev and prod heroku config:set NODE_ENV=production
 - [] 3.22 lint-konfiguraatio : ESlint in use
 ```
 npm install express --save
