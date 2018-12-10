@@ -95,7 +95,7 @@ if (process.argv.length===5) {
       console.log('find all notes');
       nos=result
       notes =result.map(modelsnote.formatNote);
-      mongoose.connection.close();
+      //mongoose.connection.close();
       console.log("nos",nos);
       console.log("notes",notes);
     });
@@ -109,35 +109,35 @@ if (process.argv.length===5) {
       console.log('find all persons');
       pers=result
       persons =result.map(modelspersons.formatPerson);
-      mongoose.connection.close();
-      console.log('mongoose.connection.close()');
+      //mongoose.connection.close();
+      //console.log('mongoose.connection.close()');
       console.log("pers",pers);
       console.log("persons",persons);
     });
     app.get('/api/notes', (request, response) => {
       //console.log('mongodb /api/notes can see url?',url);
-      mongoose.connect(url);
-      console.log('mongoose.connect(url) done');
+      //mongoose.connect(url);
+      //console.log('mongoose.connect(url) done');
   
       modelsnote.Note
         .find({}, {__v: 0})
         .then(notes => {
           if (notes) {
             response.json(notes.map(modelsnote.formatNote));
-            mongoose.connection.close();
-            console.log('mongoose.connection.close()');
+            //mongoose.connection.close();
+            //console.log('mongoose.connection.close()');
             } else {
             response.status(404).end();         // request ok format, but not found = 404 !!!
-            mongoose.connection.close();
-            console.log('mongoose.connection.close() due not found error 404');
+            //mongoose.connection.close();
+            //console.log('mongoose.connection.close() due not found error 404');
             };
 
          })
         .catch(error => {
           //console.log(error)
           response.status(400).send({ error: 'something went royally wrong in your request' });  // bad request
-          mongoose.connection.close();
-          console.log('mongoose.connection.close() due bad request error 400');
+          //mongoose.connection.close();
+          //console.log('mongoose.connection.close() due bad request error 400');
         });
 
     });
@@ -154,27 +154,27 @@ if (process.argv.length===5) {
         date: new Date()
       });
 
-      mongoose.connect(url);
-      console.log('mongoose.connect(url) done');
+      //mongoose.connect(url);
+      //console.log('mongoose.connect(url) done');
     
       note
         .save()
         .then(savedNote => {
           response.json(modelsnote.formatNote(savedNote));
-          mongoose.connection.close();
-          console.log('mongoose.connection.close()');
+          //mongoose.connection.close();
+          //console.log('mongoose.connection.close()');
         })
         .catch(error => {
           //console.log(error)
           response.status(400).send({ error: 'something went royally wrong with your post' });  // bad request
-          mongoose.connection.close();
-          console.log('mongoose.connection.close() due bad request error 400');
+          //mongoose.connection.close();
+          //console.log('mongoose.connection.close() due bad request error 400');
         });
 
     }); //app.post('/api/notes'
     app.get('/api/notes/:id', (request, response) => {
-      mongoose.connect(url);
-      console.log('mongoose.connect(url) done');
+      //mongoose.connect(url);
+      //console.log('mongoose.connect(url) done');
 
       modelsnote.Note
         .findById(request.params.id)
@@ -183,18 +183,42 @@ if (process.argv.length===5) {
             response.json(modelsnote.formatNote(note));
           } else {
             response.status(404).end();         // request ok format, but id not found = 404 !!!
+            //mongoose.connection.close();
+            //console.log('mongoose.connection.close() due not found error 404');
           };
           
-          mongoose.connection.close();
-          console.log('mongoose.connection.close() due not found error 404');
+          //mongoose.connection.close();
+          //console.log('mongoose.connection.close()');
         })
         .catch(error => {
           //console.log(error)
           response.status(400).send({ error: 'malformatted id' });  // bad request
-          mongoose.connection.close();
-          console.log('mongoose.connection.close() due bad request error 400');
+          //mongoose.connection.close();
+          //console.log('mongoose.connection.close() due bad request error 400');
         })
     }); //app.get('/api/notes/:id'
+    app.delete('/api/notes/:id', (request, response) => {
+      //mongoose.connect(url);
+      //console.log('mongoose.connect(url) done');
+      console.log('app.delete /api/notes/:id',request.params.id);
+      // Make Mongoose use `findOneAndUpdate()`. Note that this option is `true`
+      // by default, you need to set it to false.
+      mongoose.set('useFindAndModify', false);
+      modelsnote.Note
+        .findByIdAndRemove(request.params.id)
+//        .findOneAndRemove({ _id: request.params.id })
+        .then(result => {
+          response.status(204).end(); //no content
+        })
+        .catch(error => {
+          console.log(error);
+          response.status(400).send({ error: 'malformatted id' })
+//          //mongoose.connection.close();
+//          //console.log('mongoose.connection.close() due bad request error 400');
+        })
+//        //mongoose.connection.close();
+//        //console.log('mongoose.connection.close()');
+    }); //app.delete('/api/notes/:id
     
     
   } 
@@ -242,7 +266,7 @@ if (usemongoose==="NO") {
     console.log('find all notes');
     nos=result
     notes =result.map(formatNote);
-    mongoose.connection.close();
+    //mongoose.connection.close();
     console.log("nos",nos);
     console.log("notes",notes);
   });
@@ -270,7 +294,7 @@ if (usemongoose==="NO") {
     console.log('find all persons');
     pers=result
     persons =result.map(formatPerson);
-    mongoose.connection.close();
+    //mongoose.connection.close();
     console.log("pers",pers);
     console.log("persons",persons);
   });

@@ -1,7 +1,7 @@
-POST http://localhost:3001/notes HTTP/1.1
+POST http://localhost:3001/api/notes HTTP/1.1
 content-type: application/json
 
 {
-   "content": "test ccentry via code rest client 2",
+   "content": "test ccentry via code rest client 12",
    "important": true
 }
