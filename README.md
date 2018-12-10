@@ -20,9 +20,9 @@ Backend for https://fullstackopen.github.io/osa3/ code, see fullstack_part3_fron
 - [x] 3.14* puhelinluettelo ja tietokanta, osa 2 : formatNote converted to moongoose schemas static method <http://mongoosejs.com/docs/guide.html#statics>
 - [x] 3.15 puhelinluettelo ja tietokanta, osa 3 : POST person without duplicate checking but with .catch errors
 - [x] 3.16 puhelinluettelo ja tietokanta, osa 4 : DELETE person
-- [] 3.17* puhelinluettelo ja tietokanta, osa 5 : PUT person, update phonenumber for DUPLICATE name
-- [] 3.18* puhelinluettelo ja tietokanta, osa 6 : GET api/persons/:id /info + POSTMAN
-- [] 3.19* puhelinluettelo ja tietokanta, osa 7 : POST person, prevent duplicate phonenumbers via API
+- [x] 3.17* puhelinluettelo ja tietokanta, osa 5 : PUT person, update phonenumber for DUPLICATE name
+- [x] 3.18* puhelinluettelo ja tietokanta, osa 6 : GET api/persons/:id /info + POSTMAN
+- [x] 3.19* puhelinluettelo ja tietokanta, osa 7 : POST person, prevent duplicate phonenumbers via API
 - [] 3.20 tietokantaa käyttävä versio internettiin : FULLSTACK to heroku - works also on localhost
 - [] 3.21* eriytetty sovelluskehitys- ja tuotantotietokanta : separated mongodb for dev and prod
 - [] 3.22 lint-konfiguraatio : ESlint in use
