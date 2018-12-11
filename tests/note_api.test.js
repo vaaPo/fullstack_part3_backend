@@ -102,6 +102,7 @@ test('a valid note can be added ', async () => {
   
     expect(responseAfterPost.body.length).toBe(responseBeforePost.body.length);
   });
+  // see my pull :) https://github.com/fullstackopen/fullstackopen.github.io/pull/93
 
   //materiaalissa   expect(response.body.length).toBe(initialNotes.length);
 //expect(response.body.length).toBe(kala);
