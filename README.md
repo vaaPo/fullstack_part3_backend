@@ -1,5 +1,100 @@
 # fullstack_part3_backend <https://mysterious-fjord-82967.herokuapp.com/>
-Backend for https://fullstackopen.github.io/osa3/ code, see fullstack_part3_frontend and fullstack as well
+Backend for:
+* <https://fullstackopen.github.io/osa3/> homeworks, see below
+* <https://fullstackopen.github.io/osa4/> study material tricks code, see fullstack_part3_frontend and fullstack as well.
+
+## FrontEnd applications bundled  
+application | purpose
+------------|---------------
+PhoneBook   | search, add, delete, change phonenumber
+Notes       | add, delete, change importance
+Country     | search, drilldown 
+temperature | celsius-fahrenheit conversion and boiling AI 
+
+## persons API's 
+api                                   | 
+--------------------------------------|-----------
+http://localhost:3001/api/persons     | GET, POST, PUT
+http://localhost:3001/api/persons/:id | GET, DELETE
+
+## persons API's 
+api                                   | 
+--------------------------------------|-----------
+http://localhost:3001/api/notes       | GET, POST, PUT
+http://localhost:3001/api/notes/:id   | GET, DELETE
+
+
+## TREE
+```
+----------------------
+TREE for backend
+----------------------
+.env                    // .gitignored file MONGODB_URI,PORT,TEST_MONGODB_URI,TEST_PORT
+.eslintignore           // I need my teachers lint files :)
+.eslintrc.js            // configurations for eslintignore
+.gitignored             // trying to hide secrets and not to pollute github
+
+├── build				// frontend build for: dev, prod
+...
+├── controllers
+│   ├── notescontroller.js		// notesRouter	 /, /:id get,delete,post,put
+│   └── personscontroller.js		// personsRouter /, /:id get,delete,post,put
+├── datafiles				// static jsons, these are no more supported in backend
+│   ├── Kurssit
+│   │   ├── halfstackkurssi.js
+│   │   └── nodekurssi.js
+│   ├── Notes
+│   │   └── notes.js
+│   └── PhoneBook
+│       └── persons.js
+├── index.js				// backend
+├── models
+│   ├── note.js				// Note,   formatNote
+│   └── person.js			// Person, formatPerson
+├── mongo.js				// command line argument tricks for Node mongodb testing
+├── mongotrials
+│   ├── monghw3.12.sh			// .gitignored secrets
+│   ├── mongoAddNote.js			// .gitignored 
+│   ├── mongoGetNotes.js		// .gitignored
+│   └── watchmongo.sh			// .gitignored command line argument example
+...
+├── package.json			// scripts: start, watch, watchmongo, watchtest, test, lint
+...
+├── README.md				// you are reading it
+├── requests				// Vcode rest tests   
+│   ├── api_notes
+│   │   ├── broken_header_in_post_note.rest
+│   │   ├── delete_note.rest
+│   │   ├── get_all_notes.rest
+│   │   ├── get_note.rest
+│   │   ├── post_note.rest
+│   │   └── put_note.rest
+│   ├── api_persons
+│   │   ├── delete_api_persons_id.rest
+│   │   ├── get_api_persons_idnotexist.rest
+│   │   ├── get_api_persons_id.rest
+│   │   ├── get_api_persons.rest
+│   │   ├── get_unknown_endpoint.rest
+│   │   ├── post_api_persons.rest
+│   │   ├── post_broken_api_persons_1_name_null.rest
+│   │   ├── post_broken_api_persons_2_phonenumber_null.rest
+│   │   ├── post_broken_api_persons_3_name_missing.rest
+│   │   ├── post_broken_api_persons_4_phonenumber_missing.rest
+│   │   ├── post_broken_api_persons_5_name_duplicate.rest
+│   │   └── put_person.rest
+│   └── get_info.rest			//FIXME router?
+├── scribe.txt				// visual evidence of some state of hacking
+├── tests				// run PART4 jest test examples with: "npm run test" 
+│   ├── average.test.js			
+│   └── palindrom.test.js
+├── tree.txt
+└── utils				// utilities .js 
+    ├── config.js			// DEV/TEST dotenv .env sourcing for mongoUrl,port
+    ├── for_testing.js			// palindrom, average  - used for jest tests
+    └── middleware.js			// logger and error like 404 for endpoint requests
+-------------
+
+```
 
 ## Postman api tests <https://documenter.getpostman.com/view/6101672/RzfiGoDa>
 
@@ -26,6 +121,9 @@ Backend for https://fullstackopen.github.io/osa3/ code, see fullstack_part3_fron
 - [x] 3.20 tietokantaa käyttävä versio internettiin : FULLSTACK to heroku - works also on localhost
 - [x] 3.21* eriytetty sovelluskehitys- ja tuotantotietokanta : separated mongodb for dev and prod heroku config:set NODE_ENV=production
 - [x] 3.22 lint-konfiguraatio : ESlint in use, .eslintignore .eslintrc.js and VisualStudio code ESlint
+- [x] PART 4 material tricks adapted and old over engineered code cleaned:
+```
+ ./controllersrefactored with routers: notesRouter, personsRouter, middleware, jest test, mongodb environments: dev,test,production, configurations 
 ```
 npm install express --save
 npm update

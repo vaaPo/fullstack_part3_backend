@@ -1,0 +1,67 @@
+----------------------
+TREE for backend
+----------------------
+.env                    // .gitignored file MONGODB_URI,PORT,TEST_MONGODB_URI,TEST_PORT
+.eslintignore           // I need my teachers lint files :)
+.eslintrc.js            // configurations for eslintignore
+.gitignored             // trying to hide secrets and not to pollute github
+
+├── build				// frontend build for: dev, prod
+...
+├── controllers
+│   ├── notescontroller.js		// notesRouter	 /, /:id get,delete,post,put
+│   └── personscontroller.js		// personsRouter /, /:id get,delete,post,put
+├── datafiles				// static jsons, these are no more supported in backend
+│   ├── Kurssit
+│   │   ├── halfstackkurssi.js
+│   │   └── nodekurssi.js
+│   ├── Notes
+│   │   └── notes.js
+│   └── PhoneBook
+│       └── persons.js
+├── index.js				// backend
+├── models
+│   ├── note.js				// Note,   formatNote
+│   └── person.js			// Person, formatPerson
+├── mongo.js				// command line argument tricks for Node mongodb testing
+├── mongotrials
+│   ├── monghw3.12.sh			// .gitignored secrets
+│   ├── mongoAddNote.js			// .gitignored 
+│   ├── mongoGetNotes.js		// .gitignored
+│   └── watchmongo.sh			// .gitignored command line argument example
+...
+├── package.json			// scripts: start, watch, watchmongo, watchtest, test, lint
+...
+├── README.md				// you are reading it
+├── requests				// Vcode rest tests   
+│   ├── api_notes
+│   │   ├── broken_header_in_post_note.rest
+│   │   ├── delete_note.rest
+│   │   ├── get_all_notes.rest
+│   │   ├── get_note.rest
+│   │   ├── post_note.rest
+│   │   └── put_note.rest
+│   ├── api_persons
+│   │   ├── delete_api_persons_id.rest
+│   │   ├── get_api_persons_idnotexist.rest
+│   │   ├── get_api_persons_id.rest
+│   │   ├── get_api_persons.rest
+│   │   ├── get_unknown_endpoint.rest
+│   │   ├── post_api_persons.rest
+│   │   ├── post_broken_api_persons_1_name_null.rest
+│   │   ├── post_broken_api_persons_2_phonenumber_null.rest
+│   │   ├── post_broken_api_persons_3_name_missing.rest
+│   │   ├── post_broken_api_persons_4_phonenumber_missing.rest
+│   │   ├── post_broken_api_persons_5_name_duplicate.rest
+│   │   └── put_person.rest
+│   └── get_info.rest			//FIXME router?
+├── scribe.txt				// visual evidence of some state of hacking
+├── tests				// run PART4 jest test examples with: "npm run test" 
+│   ├── average.test.js			
+│   └── palindrom.test.js
+├── tree.txt
+└── utils				// utilities .js 
+    ├── config.js			// DEV/TEST dotenv .env sourcing for mongoUrl,port
+    ├── for_testing.js			// palindrom, average  - used for jest tests
+    └── middleware.js			// logger and error like 404 for endpoint requests
+-------------
