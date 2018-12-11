@@ -12,16 +12,16 @@ Country     | search, drilldown
 temperature | celsius-fahrenheit conversion and boiling AI 
 
 ## persons API's 
-api              | 
------------------|------------
-/api/persons     | GET, POST, PUT
-/api/persons/:id | GET, DELETE
+api             | 
+----------------|------------
+api/persons     | GET, POST, PUT
+api/persons/:id | GET, DELETE
 
 ## notes API's 
-api              | 
------------------|----------------
-/api/notes       | GET, POST, PUT
-/api/notes/:id   | GET, DELETE
+api            | 
+---------------|----------------
+api/notes      | GET, POST, PUT
+apinotes/:id   | GET, DELETE
 
 
 ## TREE
