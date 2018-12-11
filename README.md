@@ -12,16 +12,16 @@ Country     | search, drilldown
 temperature | celsius-fahrenheit conversion and boiling AI 
 
 ## persons API's 
-api                                   | 
---------------------------------------|-----------
-<http://localhost:3001/api/persons>   | GET, POST, PUT
-<http://localhost:3001/api/persons/:id> | GET, DELETE
+api               | 
+------------------|-----------------
+/api/persons>     | GET, POST, PUT
+/api/persons/:id> | GET, DELETE
 
 ## persons API's 
-api                                   | 
---------------------------------------|-----------
-http://localhost:3001/api/notes       | GET, POST, PUT
-http://localhost:3001/api/notes/:id   | GET, DELETE
+api              | 
+-----------------|----------------
+/api/notes       | GET, POST, PUT
+/api/notes/:id   | GET, DELETE
 
 
 ## TREE
