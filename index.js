@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const middleware = require('./utils/middleware')
+
 // print process.argv
 if (process.env.NODE_ENV !== 'production') { //HW3.21* if not production then use .env and dev mongodb in mlab
   require('dotenv').config();
@@ -28,10 +30,6 @@ const cors = require('cors');
 const repl = require('repl');
 const bodyParser = require('body-parser');
 
-
-//let notes =require('./datafiles/Notes/notes');
-//import persons from './datafiles/PhoneBook';
-
 app.use(cors()); //https://github.com/expressjs/cors
 //https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy
 //https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
@@ -40,18 +38,6 @@ app.use(bodyParser.json());
 //app.use(morgan('combined'));
 //https://github.com/expressjs/morgan#creating-new-tokens
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
-/**
- * morgan(function (tokens, req, res) {
-  return [
-    tokens.method(req, res),
-    tokens.url(req, res),
-    tokens.status(req, res),
-    tokens.res(req, res, 'content-length'), '-',
-    tokens['response-time'](req, res), 'ms'
-  ].join(' ')
-});
- */
-
 
 app.use(morgan(function (tokens, req, res) {
   return [
@@ -103,341 +89,30 @@ if (process.argv.length === 5 || process.env.MONGODB_URI.length > 0) {
   let url = newurl;
   console.log(url);
   usemongoose = 'YES';
-  mongoose.connect(url);
+  //mongoose.connect(url);
+  mongoose
+    .connect(url)
+    .then( () => {
+      console.log('connected to database', url);
+    })
+    .catch( err => {
+      console.log(err);
+    });
+
+  app.use(express.static('build'));
+
+  app.use(middleware.logger);
+
   console.log('mongoose.connect(url) done');
-  const modelsnote = require('./models/note');
-  console.log('require ./models/note');
-  modelsnote.Note
-    .find({})
-    .then(result => {
-      console.log('find all notes');
-      nos = result;
-      notes = result.map(modelsnote.formatNote);
-      //      console.log("nos",nos);
-      //      console.log("notes",notes);
-    });
-  const modelspersons = require('./models/person');
-  console.log('require ./models/persons');
 
-  modelspersons.Person
-    .find({})
-    .then(result => {
-      console.log('find all persons');
-      pers = result;
-      persons = result.map(modelspersons.formatPerson);
-      //      console.log("pers",pers);
-      //      console.log("persons",persons);
-    });
+  const notesRouter = require('./controllers/notescontroller');
+  app.use('/api/notes', notesRouter);   // notecontroller has nomor /api/notes path prefixed
 
-  app.get('/api/persons', (request, response) => {
-    modelspersons.Person
-      .find({}, {
-        __v: 0
-      })
-      .then(persons => {
-        console.log('/api/persons');
-        if (persons) {
-          pers = persons;
-          persf = persons.map(modelspersons.formatPerson);
-          console.log('pers', pers);
-          console.log('persons', persf);
-          response.json(persons.map(modelspersons.formatPerson));
-        } else {
-          response.status(404).end(); // request ok format, but not found = 404 !!!
-        }
-      })
-      .catch(error => {
-        console.log(error);
-        response.status(400).send({
-          error: 'something went royally wrong in your request'
-        }); // bad request
-      });
-  }); // app.get('api/persons'
+  const personsRouter = require('./controllers/personscontroller');
+  app.use('/api/persons', personsRouter);   // personsontroller has nomor /api/persons path prefixed
 
-  app.get('/api/persons/:id', (request, response) => {
-    modelspersons.Person
-      .findById(request.params.id)
-      .then(person => {
-        if (person) {
-          response.json(modelspersons.formatPerson(person));
-        } else {
-          response.status(404).end(); // request ok format, but id not found = 404 !!!
-        }
-      })
-      .catch(error => {
-        response.status(400).send({
-          error: 'malformatted id'
-        }); // bad request
-      });
-  }); //app.get('/api/person/:id'
+  app.use(middleware.error);
 
-  app.post('/api/persons', (request, response) => {
-    const body = request.body;
-
-    if (body.name === undefined) {
-      return response.status(400).json({
-        error: 'name missing'
-      });
-    }
-    console.log('body.name:', body.name);
-    let nameToBeAdded = body.name;
-    //https://stackoverflow.com/questions/9660587/do-something-if-nothing-found-with-find-mongoose
-    modelspersons.Person
-      .find({
-        name: body.name
-      }) //body.name})  "Arto Vihavainen"
-      .then(result => {
-        if (!result.length) { // this is wanted position, lets add
-          console.log('result', result);
-          console.log('we didnt find duplicate in mongodb');
-          const person = new modelspersons.Person({
-            name: body.name,
-            phonenumber: body.phonenumber,
-          });
-          person //FIXME promise chain v2 for person post
-            .save()
-            .then(modelspersons.formatPerson)
-            .then(savedAndFormattedPerson => {
-              response.json(savedAndFormattedPerson);
-            })
-            .catch(error => {
-              //console.log(error)
-              response.status(400).send({
-                error: 'something went royally wrong with your post'
-              }); // bad request
-            });
-        } else {
-          console.log('post person conflict error 409, name exists already', body.name);
-          console.log('result', result);
-          response.status(409).send({
-            error: 'conflict error 409, name exists already'
-          }); // request is conflict error 409, name exists
-        }
-      })
-      .catch(error => {
-        response.status(400).send({
-          error: 'problem in post person '
-        }); // bad request
-      });
-
-
-    /**     person
-        .save()
-        .then(savedPerson => {
-          response.json(modelspersons.formatPerson(savedPerson));
-        })
-        .catch(error => {
-          console.log(error)
-          response.status(400).send({ error: 'something went royally wrong with your post' });  // bad request
-        });
-    */
-
-
-  }); //app.post('/api/person'
-  app.delete('/api/persons/:id', (request, response) => {
-    console.log('app.delete /api/persons/:id', request.params.id);
-    mongoose.set('useFindAndModify', false);
-    modelspersons.Person
-      .findByIdAndRemove(request.params.id)
-      //        .findOneAndRemove({ _id: request.params.id })
-      .then(result => {
-        response.status(204).end(); //no content
-      })
-      .catch(error => {
-        console.log(error);
-        response.status(400).send({
-          error: 'malformatted id'
-        });
-      });
-  }); //app.delete('/api/persons/:id
-
-  /**
- * const updatepromised = (id, newObject) => {
-    const request=axios.put(`${baseUrl}/${id}`, newObject);
-    return request.then(response => response.data);
-};
- */
-  app.put('/api/persons/:id', (request, response) => {
-    console.log('app.put /api/persons request.params.id', request.params.id);
-    const body = request.body;
-    console.log('app.put body.name:', body.name);
-    console.log('app.put body.phonenumber:', body.phonenumber);
-
-    if (body.name === undefined) {
-      return response.status(400).json({
-        error: 'name missing'
-      });
-    }
-
-    modelspersons.Person
-      .findByIdAndUpdate(request.params.id, {
-          $set: {
-            phonenumber: body.phonenumber
-          }
-        }, {
-          new: true
-        },
-        function (err, person) {
-          if (err) return response.status(400).send({
-            error: 'something went royally wrong with your put'
-          });
-          response.send(person);
-        });
-  }); //app.put('/api/persons/:id'
-
-
-  app.get('/api/notes', (request, response) => {
-
-    modelsnote.Note
-      .find({}, {
-        __v: 0
-      })
-      .then(notes => {
-        if (notes) {
-          response.json(notes.map(modelsnote.formatNote));
-        } else {
-          response.status(404).end(); // request ok format, but not found = 404 !!!
-        }
-      })
-      .catch(error => {
-        //console.log(error)
-        response.status(400).send({
-          error: 'something went royally wrong in your request'
-        }); // bad request
-      });
-
-  }); //app.get('/api/notes'
-
-  app.post('/api/notes', (request, response) => {
-    const body = request.body;
-
-    if (body.content === undefined) {
-      return response.status(400).json({
-        error: 'content missing'
-      });
-    }
-
-    const note = new modelsnote.Note({
-      content: body.content,
-      important: body.important || false,
-      date: new Date()
-    });
-    /**
-      note
-        .save()
-        .then(savedNote => {
-          response.json(modelsnote.formatNote(savedNote));
-        })
-        .catch(error => {
-          //console.log(error)
-          response.status(400).send({ error: 'something went royally wrong with your post' });  // bad request
-        });
- */
-    /**      note                  //FIXME promise chain v1
-      .save()
-      .then(savedNote => {
-        return modelsnote.formatNote(savedNote);
-      })
-      .then(savedAndFormattedNote => {
-        response.json(savedAndFormattedNote)
-      });
- */
-    note //FIXME promise chain v2
-      .save()
-      .then(modelsnote.formatNote)
-      .then(savedAndFormattedNote => {
-        response.json(savedAndFormattedNote);
-      })
-      .catch(error => {
-        //console.log(error)
-        response.status(400).send({
-          error: 'something went royally wrong with your post'
-        }); // bad request
-      });
-  }); //app.post('/api/notes'
-
-  app.put('/api/notes/:id', (request, response) => {
-    console.log('app.put request.params.id', request.params.id);
-    const body = request.body;
-    console.log('app.put body.content:', body.content);
-    console.log('app.put body.important:', body.important);
-
-    if (body.content === undefined) {
-      return response.status(400).json({
-        error: 'content missing'
-      });
-    }
-    modelsnote.Note
-      .findByIdAndUpdate(request.params.id, {
-          $set: {
-            important: body.important
-          }
-        }, {
-          new: true
-        },
-        function (err, note) {
-          if (err) return response.status(400).send({
-            error: 'something went royally wrong with your put'
-          });
-          response.send(note);
-        });
-    /**
-     *   const body = request.body
-
-    const note = {
-      content: body.content,
-      important: body.important
-    }
-
-    Note
-      .findByIdAndUpdate(request.params.id, note, { new: true } )
-      .then(updatedNote => {
-        response.json(formatNote(updatedNote))
-      })
-      .catch(error => {
-        console.log(error)
-        response.status(400).send({ error: 'malformatted id' })
-      })
-     */
-  }); //app.put('/api/notes/:id'
-
-
-
-  app.get('/api/notes/:id', (request, response) => {
-    modelsnote.Note
-      .findById(request.params.id)
-      .then(note => {
-        if (note) {
-          response.json(modelsnote.formatNote(note));
-        } else {
-          response.status(404).end(); // request ok format, but id not found = 404 !!!
-        }
-      })
-      .catch(error => {
-        response.status(400).send({
-          error: 'malformatted id'
-        }); // bad request
-      });
-  }); //app.get('/api/notes/:id'
-  app.delete('/api/notes/:id', (request, response) => {
-    console.log('app.delete /api/notes/:id', request.params.id);
-    mongoose.set('useFindAndModify', false);
-    modelsnote.Note
-      .findByIdAndRemove(request.params.id)
-      //        .findOneAndRemove({ _id: request.params.id })
-      .then(result => {
-        response.status(204).end(); //no content
-      })
-      .catch(error => {
-        console.log(error);
-        response.status(400).send({
-          error: 'malformatted id'
-        });
-      });
-  }); //app.delete('/api/notes/:id
-
-
-  //}
 } else {
   usemongoose = 'NO';
 }
