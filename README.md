@@ -146,6 +146,7 @@ npm install dotenv --save
 npm install eslint --save-dev
 node_modules/.bin/eslint --init
 npm install --save-dev jest
+npm install --save-dev supertest
 
 ```
 ### Please note that the fullstack application is available also on localhost <http://localhost:3001/>
@@ -292,4 +293,11 @@ for win users
 ```
 npm install --save-dev cross-env
 ```
+In case of Error: listen EADDRINUSE :::3002
+then
+```
+lsof -i :3002
+kill -9 pid
+```
+
 

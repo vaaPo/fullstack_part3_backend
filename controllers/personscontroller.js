@@ -1,7 +1,7 @@
 const personsRouter = require('express').Router();
 const modelspersons = require('../models/person');
-console.log('personsRouter awake');
-console.log('require ../models/person');
+//console.log('personsRouter awake');
+//console.log('require ../models/person');
 /**
 A router object is an isolated instance of middleware and routes.
 You can think of it as a “mini-application,”

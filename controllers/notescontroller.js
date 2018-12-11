@@ -1,7 +1,7 @@
 const notesRouter = require('express').Router();
 const modelsnote = require('../models/note');
-console.log('notesRouter awake');
-console.log('require ../models/note');
+//console.log('notesRouter awake');
+//console.log('require ../models/note');
 /**
 A router object is an isolated instance of middleware and routes.
 You can think of it as a “mini-application,”
@@ -80,10 +80,10 @@ notesRouter.post('/', (request, response) => { ///api/notes
 }); //notesRouter.post('/api/notes'
 
 notesRouter.put('/:id', (request, response) => { //
-  console.log('notesRouter.put request.params.id', request.params.id);
+  //console.log('notesRouter.put request.params.id', request.params.id);
   const body = request.body;
-  console.log('notesRouter.put body.content:', body.content);
-  console.log('notesRouter.put body.important:', body.important);
+  //console.log('notesRouter.put body.content:', body.content);
+  //console.log('notesRouter.put body.important:', body.important);
 
   if (body.content === undefined) {
     return response.status(400).json({
@@ -142,7 +142,7 @@ notesRouter.get('/:id', (request, response) => { ///api/notes/:id
 }); //notesRouter.get('/api/notes/:id'
 
 notesRouter.delete('/:id', (request, response) => {  ///api/notes/:id
-  console.log('notesRouter.delete /api/notes/:id', request.params.id);
+  //console.log('notesRouter.delete /api/notes/:id', request.params.id);
   mongoose.set('useFindAndModify', false);
   modelsnote.Note
     .findByIdAndRemove(request.params.id)
@@ -151,7 +151,7 @@ notesRouter.delete('/:id', (request, response) => {  ///api/notes/:id
       response.status(204).end(); //no content
     })
     .catch(error => {
-      console.log(error);
+      //console.log(error);
       response.status(400).send({
         error: 'malformatted id'
       });
