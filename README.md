@@ -98,7 +98,8 @@ mongo mongodb://127.0.0.1:27017
 ## getting started <https://docs.mongodb.com/manual/tutorial/getting-started/>
 <https://docs.mongodb.com/manual/reference/sql-comparison/>
 ```
-mongo
+sudo service mongod start
+mongo mongodb://127.0.0.1:27017
 db
 show dbs
 db.myCollection.insertOne( { x: 1 } );
@@ -127,9 +128,59 @@ db.inventory.find( { tags: ["red", "blank"] } )
 
 
 ```
+### securing Mongodb
+<https://stackoverflow.com/questions/41615574/mongodb-server-has-startup-warnings-access-control-is-not-enabled-for-the-dat>
+<https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-mongodb-on-ubuntu-16-04>
+```
+emacs -nw /etc/mongod.conf
+                                    security:
+                                    authorization: "enabled"
 
+mongo --username adminluser --password adminsppassu --authenticationDatabase admin mongodb://127.0.0.1:27017
+
+> use fullstacktest
+> db.createUser(
+... {user:"fullstack",
+... pwd:"jokinsalasana",
+... roles:[{role:"readWrite", db: "fullstacktest" },
+... {role:"read", db:"test"}]
+... }
+... )
+Successfully added user: {
+        "user" : "fullstack",
+        "roles" : [
+                {
+                        "role" : "readWrite",
+                        "db" : "fullstacktest"
+                },
+                {
+                        "role" : "read",
+                        "db" : "test"
+                }
+        ]
+}
+exit
+mongo --username fullstack --password jokinsalasana --authenticationDatabase fullstacktest mongodb://127.0.0.1:27017/fullstacktest
+> use fullstacktest
+switched to db fullstacktest
+> db.movie.insert({"name":"tutorials point"})
+WriteResult({ "nInserted" : 1 })
+> db.movie.find().pretty()
+```
+### .env see environment variables for DEV db in mlab and TEST mongodb on localhost:
+```
+MONGODB_URI=mongodb://someluser:somepassy@somemongodb.mlab.com:21461/some_heroku_spesificname_if_created_via_heroku
+PORT=3001
+TEST_MONGODB_URI=mongodb://127.0.0.1:27017/fullstacktest
+TEST_PORT=3002
+```
 ### Testing with jest
 <https://jestjs.io/docs/en/expect.html#content>
 ```
 npm run test
 ```
+for win users
+```
+npm install --save-dev cross-env
+```
+

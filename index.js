@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const middleware = require('./utils/middleware')
+const middleware = require('./utils/middleware');
 
 // print process.argv
 if (process.env.NODE_ENV !== 'production') { //HW3.21* if not production then use .env and dev mongodb in mlab
