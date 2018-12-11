@@ -7,6 +7,7 @@
     "start": "NODE_ENV=production node index.js",
     "watch": "NODE_ENV=development nodemon index.js",
     "watchmongo": "./mongotrials/watchmongo.sh",
+    "watchtest": "NODE_ENV=test nodemon index.js",
     "test": "NODE_ENV=test jest --verbose",
     "lint": "eslint ."
   },

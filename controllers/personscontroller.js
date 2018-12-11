@@ -16,10 +16,6 @@ personsRouter.get('/', (request, response) => { //'/api/persons'
     .then(persons => {
       console.log('/api/persons');
       if (persons) {
-        pers = persons;
-        persf = persons.map(modelspersons.formatPerson);
-        console.log('pers', pers);
-        console.log('persons', persf);
         response.json(persons.map(modelspersons.formatPerson));
       } else {
         response.status(404).end(); // request ok format, but not found = 404 !!!
@@ -53,9 +49,14 @@ personsRouter.get('/:id', (request, response) => { ///api/persons/:id
 personsRouter.post('/', (request, response) => { ///api/persons
   const body = request.body;
 
-  if (body.name === undefined) {
+  if (body.name === undefined || body.name === null) {
     return response.status(400).json({
       error: 'name missing'
+    });
+  }
+  if (body.phonenumber === undefined || body.phonenumber === null) {
+    return response.status(400).json({
+      error: 'phonenumber missing'
     });
   }
   console.log('body.name:', body.name);
