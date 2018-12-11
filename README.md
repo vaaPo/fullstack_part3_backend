@@ -15,20 +15,24 @@ temperature | celsius-fahrenheit conversion and boiling AI
 url             | rest verb | functionality
 ----------------|-----------|---------------
 api/persons     | GET       | get all persons      
-                | POST      | post new person, and send errors for sloppy inputs
-                | PUT       | update phonenumber for existing person
+api/persons     | POST      | post new person, and send errors for sloppy inputs
+api/persons     | PUT       | update phonenumber for existing person
 api/persons/:id | GET       | get person by id (mongodb generated) 
-                | DELETE    | delete person by id
+api/persons/:id | DELETE    | delete person by id
 
 ## notes API's 
 url             | rest verb | functionality
 ----------------|-----------|---------------
 api/notes       | GET       | get all notes
-                | POST      | post new note 
-                | PUT       | update notes importance
+api/notes       | POST      | post new note 
+api/notes       | PUT       | update notes importance
 api/notes/:id   | GET       | get note by id (mongodb generated) 
-                | DELETE    | delete note by id
+api/notes/:id   | DELETE    | delete note by id
 
+## info API's
+url             | rest verb | functionality
+----------------|-----------|---------------
+info            | GET       | got destroyed, highly trained monkeys fixing it
 
 ## TREE
 ```
