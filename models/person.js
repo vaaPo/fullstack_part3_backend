@@ -7,19 +7,19 @@ const mongoose = require('mongoose');
 //mongoose.connect(url);
 
 const Person = mongoose.model('Person', {
-    name: String,
-    phonenumber: String
-  });
+  name: String,
+  phonenumber: String
+});
 const formatPerson = (person) => {
-    return {
-      name: person.name,
-      phonenumber: person.phonenumber,
-      id: person._id
-    };
+  return {
+    name: person.name,
+    phonenumber: person.phonenumber,
+    id: person._id
   };
+};
 module.exports = {
-    Person: Person,
-    formatPerson: formatPerson
+  Person: Person,
+  formatPerson: formatPerson
 };
 /**
  * var modelsperson = require('./models/person');
@@ -38,4 +38,4 @@ modelsperson.Person.findOne(...
 
  */
 
-//module.exports = Person; 
+//module.exports = Person;

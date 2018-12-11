@@ -17,16 +17,16 @@ const Note = mongoose.model('Note', {
   important: Boolean
 });
 const formatNote = (note) => {
-    return {
-      content: note.content,
-      date: note.date,
-      important: note.important,
-      id: note._id
-    };
+  return {
+    content: note.content,
+    date: note.date,
+    important: note.important,
+    id: note._id
   };
+};
 module.exports = {
-    Note: Note,
-    formatNote: formatNote
+  Note: Note,
+  formatNote: formatNote
 };
 
 /**
