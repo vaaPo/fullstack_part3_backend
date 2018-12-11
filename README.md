@@ -12,16 +12,22 @@ Country     | search, drilldown
 temperature | celsius-fahrenheit conversion and boiling AI 
 
 ## persons API's 
-api             | 
-----------------|------------
-api/persons     | GET, POST, PUT
-api/persons/:id | GET, DELETE
+url             | rest verb | functionality
+----------------|-----------|---------------
+api/persons     | GET       | get all persons      
+                | POST      | post new person, and send errors for sloppy inputs
+                | PUT       | update phonenumber for existing person
+api/persons/:id | GET       | get person by id (mongodb generated) 
+                | DELETE    | delete person by id
 
 ## notes API's 
-api            | 
----------------|----------------
-api/notes      | GET, POST, PUT
-apinotes/:id   | GET, DELETE
+url             | rest verb | functionality
+----------------|-----------|---------------
+api/notes       | GET       | get all notes
+                | POST      | post new note 
+                | PUT       | update notes importance
+api/notes/:id   | GET       | get note by id (mongodb generated) 
+                | DELETE    | delete note by id
 
 
 ## TREE
