@@ -12,12 +12,12 @@ Country     | search, drilldown
 temperature | celsius-fahrenheit conversion and boiling AI 
 
 ## persons API's 
-api               | 
-------------------|-----------------
-/api/persons>     | GET, POST, PUT
-/api/persons/:id> | GET, DELETE
+api              | 
+-----------------|------------
+/api/persons     | GET, POST, PUT
+/api/persons/:id | GET, DELETE
 
-## persons API's 
+## notes API's 
 api              | 
 -----------------|----------------
 /api/notes       | GET, POST, PUT
