@@ -14,8 +14,8 @@ temperature | celsius-fahrenheit conversion and boiling AI
 ## persons API's 
 api                                   | 
 --------------------------------------|-----------
-http://localhost:3001/api/persons     | GET, POST, PUT
-http://localhost:3001/api/persons/:id | GET, DELETE
+<http://localhost:3001/api/persons>   | GET, POST, PUT
+<http://localhost:3001/api/persons/:id> | GET, DELETE
 
 ## persons API's 
 api                                   | 
