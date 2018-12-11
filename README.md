@@ -36,6 +36,7 @@ npm install cors --save
 npm install dotenv --save
 npm install eslint --save-dev
 node_modules/.bin/eslint --init
+npm install --save-dev jest
 
 ```
 ### Please note that the fullstack application is available also on localhost <http://localhost:3001/>
@@ -47,24 +48,24 @@ something like this MONGODB_URI=mongodb://l0ser:asd@ds211013288.mlab.com:1112088
 npm run watch
 ```
 ### Heroku <https://devcenter.heroku.com/articles/heroku-cli>
-'''
+```
 sudo snap install --classic heroku
 heroku --version
 heroku login -i
 heroku create
-'''
+```
 #### deploy - can be done with code as well
-'''
+```
 git add -A
 git commit -m "Initiate app."
 git push heroku master
-'''
+```
 #### surf to <https://mysterious-fjord-82967.herokuapp.com/notes>
 ## check logs regularly with
-'''
+```
 heroku logs
 heroku logs -t
-'''
+```
 #### fix frontends baseurl to https://mysterious-fjord-82967.herokuapp.com/
 
 # MONGODB via mlab in Heroku
@@ -127,3 +128,8 @@ db.inventory.find( { tags: ["red", "blank"] } )
 
 ```
 
+### Testing with jest
+<https://jestjs.io/docs/en/expect.html#content>
+```
+npm run test
+```

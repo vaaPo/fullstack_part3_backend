@@ -7,7 +7,7 @@
     "start": "node index.js",
     "watch": "nodemon index.js",
     "watchmongo": "./mongotrials/watchmongo.sh",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose",
     "lint": "eslint ."
   },
   "author": "paavo",
@@ -21,6 +21,10 @@
   },
   "devDependencies": {
     "eslint": "^5.10.0",
+    "jest": "^23.6.0",
     "nodemon": "^1.18.7"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
