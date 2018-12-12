@@ -59,7 +59,7 @@ describe('when there is initially some notes saved', async () => {
 
   describe('addition of a new Note', async () => {
 
-    test('POST /api/notes succeeds with valid data', async () => {
+    test.only('POST /api/notes succeeds with valid data', async () => {
       const notesAtStart = await notesInDb();
 
       const newNote = {
