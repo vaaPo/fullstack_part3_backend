@@ -155,6 +155,7 @@ npm install --save-dev jest
 npm install --save-dev supertest
 npm install babel-eslint --save-dev
 npm install bcrypt --save
+npm install jsonwebtoken --save
 ```
 ### Please note that the fullstack application is available also on localhost <http://localhost:3001/>
 #### MONGODB_URI environment variable needs to be set
