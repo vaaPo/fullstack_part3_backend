@@ -36,3 +36,11 @@ const notesInDb = async () => {
 module.exports = {
   initialNotes, format, nonExistingId, notesInDb
 };
+
+/**
+ * {
+   "content": "test note via code Postman client 9 async for Zorro",
+   "important": true,
+   "userId": "5c115087c942ae71fb30477c"
+}
+ */
