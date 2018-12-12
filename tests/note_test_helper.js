@@ -1,4 +1,4 @@
-const modelsnote = require('../models/note');
+const Note = require('../models/note');
 //const Note = require('../models/note')
 
 const initialNotes = [
@@ -21,7 +21,7 @@ const format = (note) => {
 };
 
 const nonExistingId = async () => {
-  const note = new modelsnote.Note();
+  const note = new Note();
   await note.save();
   await note.remove();
 
@@ -29,7 +29,7 @@ const nonExistingId = async () => {
 };
 
 const notesInDb = async () => {
-  const notes = await modelsnote.Note.find({});
+  const notes = await Note.find({});
   return notes.map(format);
 };
 

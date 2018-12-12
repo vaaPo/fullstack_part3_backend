@@ -1,16 +1,15 @@
 const supertest = require('supertest');
 const { app, server } = require('../index');
 const api = supertest(app);
-//const Note = require('../models/note');
-const modelsnote = require('../models/note');
+const Note = require('../models/note');
 const { initialNotes, format, nonExistingId, notesInDb } = require('./note_test_helper');
 
 
 describe('when there is initially some notes saved', async () => {
   beforeAll(async () => {
-    await modelsnote.Note.remove({});
+    await Note.remove({});
 
-    const noteObjects = initialNotes.map(n => new modelsnote.Note(n));
+    const noteObjects = initialNotes.map(n => new Note(n));
     await Promise.all(noteObjects.map(n => n.save()));
   });
 
@@ -58,7 +57,7 @@ describe('when there is initially some notes saved', async () => {
       .expect(404); // expected 400 "Bad Request", got 404 "Not Found"
   });
 
-  describe('addition of a new modelsnote.Note', async () => {
+  describe('addition of a new Note', async () => {
 
     test('POST /api/notes succeeds with valid data', async () => {
       const notesAtStart = await notesInDb();
@@ -106,7 +105,7 @@ describe('when there is initially some notes saved', async () => {
     let addedNote;
 
     beforeAll(async () => {
-      addedNote = new modelsnote.Note({
+      addedNote = new Note({
         content: 'poisto pyynnöllä HTTP DELETE',
         important: false
       });

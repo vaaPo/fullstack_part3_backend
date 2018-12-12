@@ -1,12 +1,12 @@
-const modelsuser = require('../models/user'); // User
+const User = require('../models/user'); // User
 const { format, initialNotes, nonExistingId, notesInDb, usersInDb } = require('./user_test_helper');
 
 //...
 
 describe.only('when there is initially one user at db', async () => {
   beforeAll(async () => {
-    await modelsuser.User.remove({});
-    const user = new modelsuser.User({ username: 'root', password: 'sekret' });
+    await User.remove({});
+    const user = new User({ username: 'root', password: 'sekret' });
     await user.save();
   });
 
@@ -51,3 +51,4 @@ test('POST /api/users fails with proper statuscode and message if username alrea
   const usersAfterOperation = await usersInDb();
   expect(usersAfterOperation.length).toBe(usersBeforeOperation.length);
 });
+
