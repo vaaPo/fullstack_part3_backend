@@ -101,7 +101,6 @@ notesRouter.put('/:id', async (request, response) => { //notesRouter.put('/:id'
   }
 }); //notesRouter.put('/:id'
 
-
 notesRouter.delete('/:id', async (request, response) => { ///api/notes/:id
   try {
     await Note.findByIdAndRemove(request.params.id);
