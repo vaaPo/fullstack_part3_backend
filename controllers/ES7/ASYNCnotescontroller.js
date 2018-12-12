@@ -80,7 +80,6 @@ notesRouter.post('/', async (request, response) => { //('/api/notes'
   }
 }); //notesRouter.post('/'
 
-
 notesRouter.put('/:id', async (request, response) => { //notesRouter.put('/:id'
   //console.log('notesRouter.put request.params.id', request.params.id);
   const body = request.body;
