@@ -21,6 +21,10 @@ notesRouter.get('/', async (request, response) => {//notesRouter.get('/'
   try { const notes = await Note
     .find({}, {
       __v: 0
+    })
+    .populate('user', {
+      username: 1,
+      name: 1
     });
   response.json(notes.map(Note.format));
   } catch (exception) {
@@ -31,7 +35,7 @@ notesRouter.get('/', async (request, response) => {//notesRouter.get('/'
 
 notesRouter.get('/:id', async (request, response) => {//notesRouter.get('/:id'
   try {
-    const note = await Note.findById(request.params.id)
+    const note = await Note.findById(request.params.id);
 
     if (note) {
       response.json(Note.format(note));
