@@ -35,7 +35,11 @@ notesRouter.get('/', async (request, response) => {//notesRouter.get('/'
 
 notesRouter.get('/:id', async (request, response) => {//notesRouter.get('/:id'
   try {
-    const note = await Note.findById(request.params.id);
+    const note = await Note.findById(request.params.id)
+      .populate('user', {
+        username: 1,
+        name: 1
+      });
 
     if (note) {
       response.json(Note.format(note));
