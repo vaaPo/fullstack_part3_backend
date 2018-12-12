@@ -108,7 +108,7 @@ notesRouter.delete('/:id', async (request, response) => { ///api/notes/:id
     response.status(204).end(); //no content
   } catch (exception) {
     console.log(exception);
-    response.status(400).send({ error: 'malformatted id' });
+    response.status(400).send({ error: 'malformatted id' }); // e.g. FOOBAR
   }
 });  //notesRouter.delete('/api/notes/:id
 
