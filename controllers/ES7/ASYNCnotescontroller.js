@@ -30,6 +30,23 @@ notesRouter.get('/', async (request, response) => {//notesRouter.get('/'
 }); //notesRouter.get('/'
 
 
+notesRouter.get('/:id', async (request, response) => {//notesRouter.get('/:id'
+  try {
+    const note = await Note.findById(request.params.id)
+
+    if (note) {
+      response.json(Note.format(note));
+    } else {
+      response.status(404).end(); // request ok format, but id not found = 404 !!!
+    }
+
+  } catch (exception) {
+    console.log(exception);
+    response.status(400).send({ error: 'malformatted id' });
+  }
+}); //notesRouter.get('/:id'
+
+
 notesRouter.post('/', async (request, response) => { //('/api/notes'
   try {
     const body = request.body;
@@ -84,22 +101,6 @@ notesRouter.put('/:id', async (request, response) => { //notesRouter.put('/:id'
   }
 }); //notesRouter.put('/:id'
 
-
-notesRouter.get('/:id', async (request, response) => {//notesRouter.get('/:id'
-  try {
-    const note = await Note.findById(request.params.id)
-
-    if (note) {
-      response.json(Note.format(note));
-    } else {
-      response.status(404).end(); // request ok format, but id not found = 404 !!!
-    }
-
-  } catch (exception) {
-    console.log(exception);
-    response.status(400).send({ error: 'malformatted id' });
-  }
-}); //notesRouter.get('/:id'
 
 notesRouter.delete('/:id', async (request, response) => { ///api/notes/:id
   try {
