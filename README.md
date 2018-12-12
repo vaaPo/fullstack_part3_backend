@@ -316,5 +316,8 @@ kill -9 pid
 ```
 git log --oneline --decorate --color
 ```
-
+### login.js
+```
+fix .env to contain SECRET
+```
 
