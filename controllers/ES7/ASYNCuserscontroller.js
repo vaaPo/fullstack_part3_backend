@@ -39,8 +39,16 @@ usersRouter.post('/', async (request, response) => {
 });
 
 usersRouter.get('/', async (request, response) => {
-  const users = await modelsuser.User.find({});
+  try {const users = await modelsuser
+    .User
+    .find({}, {
+      __v: 0
+    });
   response.json(users.map(modelsuser.User.format)); //modelsuser.User.format  //formatUser
+  } catch (exception) {
+    console.log(exception);
+    response.status(400).send({ error: 'something went royally wrong in your request' });
+  }
 });
 
 module.exports = usersRouter;
