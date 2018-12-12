@@ -13,6 +13,7 @@ const personsRouter = require('./controllers/ES6/personscontroller');
 //const personsRouter = require('./controllers/ES7/ASYNCpersonscontroller');
 const usersRouter = require('./controllers/ES7/ASYNCuserscontroller');
 const config = require('./utils/config');
+const loginRouter = require('./controllers/login');
 
 //https://stackoverflow.com/questions/50448272/avoid-current-url-string-parser-is-deprecated-warning-by-setting-usenewurlpars
 //DeprecationWarning: current URL string parser is deprecated,
@@ -60,6 +61,7 @@ app.use(middleware.logger);
 app.use('/api/notes', notesRouter);   // notecontroller has nomore /api/notes path prefixed
 app.use('/api/persons', personsRouter);   // personsontroller has nomore /api/persons path prefixed
 app.use('/api/users', usersRouter);       // usersRouter has users for notes
+app.use('/api/login', loginRouter);
 
 app.use(middleware.error);
 

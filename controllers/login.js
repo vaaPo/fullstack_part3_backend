@@ -26,3 +26,11 @@ loginRouter.post('/', async (request, response) => {
 });
 
 module.exports = loginRouter;
+/**
+ * const loginRouter = require('./controllers/login')
+
+//...
+
+app.use('/api/login', loginRouter)
+
+ */
