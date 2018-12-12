@@ -42,8 +42,10 @@ usersRouter.get('/', async (request, response) => {
   try {const users = await User
     .find({}, {
       __v: 0
-    });
-  response.json(users.map(User.format)); //UserUser.format  //formatUser
+    })
+    .populate('notes')                   // non-consistent outer-join to notes chained to find
+    ;
+  response.json(users.map(User.format)); //User.format defined in models/user.js
   } catch (exception) {
     console.log(exception);
     response.status(400).send({ error: 'something went royally wrong in your request' });
