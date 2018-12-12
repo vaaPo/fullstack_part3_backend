@@ -1,5 +1,7 @@
 const notesRouter = require('express').Router();
 const modelsnote = require('../../models/note');
+// call me modelsnote.Note.format(note)
+
 //console.log('notesRouter awake');
 //console.log('require ../models/note');
 /**
@@ -11,13 +13,13 @@ Every Express application has a built-in app router.
 /** this is ES7 async/await controller version
  *  this is going to be ported from ES6 promises to ES7 async await */
 /** the ES6 promises versions are in their own directory */
-notesRouter.get('/', async (request, response) => {
+notesRouter.get('/', async (request, response) => {//notesRouter.get('/'
   try { const notes = await modelsnote
     .Note
     .find({}, {
       __v: 0
     });
-  response.json(notes.map(modelsnote.formatNote));
+  response.json(notes.map(modelsnote.Note.format));
   } catch (exception) {
     console.log(exception);
     response.status(400).send({ error: 'something went royally wrong in your request' });
@@ -39,7 +41,7 @@ notesRouter.post('/', async (request, response) => { //('/api/notes'
     });
 
     const savedNote = await note.save();
-    response.json(modelsnote.formatNote(note));
+    response.json(modelsnote.Note.format(note));
   } catch (exception) {
     console.log(exception);
     response.status(500).json({ error: 'something went wrong...' });
@@ -67,7 +69,7 @@ notesRouter.put('/:id', async (request, response) => { //notesRouter.put('/:id'
       }, {
         new: true
       });
-    response.json(modelsnote.formatNote(savedNote));
+    response.json(modelsnote.Note.format(savedNote));
   } catch (exception) {
     console.log(exception);
     response.status(400).json({ error: 'something went wrong...' });
@@ -75,12 +77,12 @@ notesRouter.put('/:id', async (request, response) => { //notesRouter.put('/:id'
 }); //notesRouter.put('/:id'
 
 
-notesRouter.get('/:id', async (request, response) => {
+notesRouter.get('/:id', async (request, response) => {//notesRouter.get('/:id'
   try {
-    const note = await modelsnote.Note.findById(request.params.id);
+    const note = await modelsnote.Note.findById(request.params.id)
 
     if (note) {
-      response.json(modelsnote.formatNote(note));
+      response.json(modelsnote.Note.format(note));
     } else {
       response.status(404).end(); // request ok format, but id not found = 404 !!!
     }
@@ -89,7 +91,7 @@ notesRouter.get('/:id', async (request, response) => {
     console.log(exception);
     response.status(400).send({ error: 'malformatted id' });
   }
-}); //notesRouter.get('/api/notes/:id'
+}); //notesRouter.get('/:id'
 
 notesRouter.delete('/:id', async (request, response) => { ///api/notes/:id
   try {

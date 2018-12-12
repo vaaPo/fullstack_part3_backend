@@ -1,50 +1,23 @@
 //FIXME in index.js const Note = require('./models/notes')
+const mongoose = require('mongoose')
 
-
-const mongoose = require('mongoose');
-
-//const url = 'mongodb://fullstack:sekred@ds211088.mlab.com:11088/fullstack-notes';
-
-//mongoose.connect(url);
-//console.log('mongoose.connect(url) done');
-
-//console.log('./models/notes.js can see url?',url);
-
-
-const Note = mongoose.model('Note', {
+const noteSchema = new mongoose.Schema({
   content: String,
   date: Date,
-  important: Boolean
-});
-const formatNote = (note) => {
+  important: Boolean,
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+})
+
+noteSchema.statics.format = (note) => {
   return {
+    id: note._id,
     content: note.content,
     date: note.date,
-    important: note.important,
-    id: note._id
-  };
-};
-module.exports = {
-  Note: Note,
-  formatNote: formatNote
-};
+    important: note.important
+  }
+}
 
-/**
- * var modelsnote = require('./models/note');
-...
-modelsnote.Note.findOne(...
- */
+const Note = mongoose.model('Note', noteSchema)
 
-
-/** GENERIC formatNote
-  const formatNote = (note) => {
-  const formattedNote = { ...note._doc, id: note._id }
-  delete formattedNote._id
-  delete formattedNote.__v
-
-  return formattedNote
-};
-
- */
-
-//module.exports = Note; //(Note,formatNote);
+module.exports = Note;
+// call me modelsnote.Note.format(note)

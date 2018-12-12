@@ -10,6 +10,8 @@ var morgan = require('morgan');
 //const notesRouter = require('./controllers/ES6/notescontroller');
 const notesRouter = require('./controllers/ES7/ASYNCnotescontroller');
 const personsRouter = require('./controllers/ES6/personscontroller');
+//const personsRouter = require('./controllers/ES7/ASYNCpersonscontroller');
+const usersRouter = require('./controllers/ES7/ASYNCuserscontroller');
 const config = require('./utils/config');
 
 //https://stackoverflow.com/questions/50448272/avoid-current-url-string-parser-is-deprecated-warning-by-setting-usenewurlpars
@@ -55,8 +57,9 @@ app.use(morgan(function (tokens, req, res) { //app.use(morgan('tiny'));      //F
 app.use(express.static('build'));
 app.use(middleware.logger);
 
-app.use('/api/notes', notesRouter);   // notecontroller has nomor /api/notes path prefixed
-app.use('/api/persons', personsRouter);   // personsontroller has nomor /api/persons path prefixed
+app.use('/api/notes', notesRouter);   // notecontroller has nomore /api/notes path prefixed
+app.use('/api/persons', personsRouter);   // personsontroller has nomore /api/persons path prefixed
+app.use('/api/users', usersRouter);       // usersRouter has users for notes
 
 app.use(middleware.error);
 

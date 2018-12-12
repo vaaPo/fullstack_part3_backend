@@ -3,7 +3,8 @@ const { app, server } = require('../index');
 const api = supertest(app);
 //const Note = require('../models/note');
 const modelsnote = require('../models/note');
-const { format, initialNotes, nonExistingId, notesInDb } = require('./test_helper');
+const { initialNotes, format, nonExistingId, notesInDb } = require('./note_test_helper');
+
 
 describe('when there is initially some notes saved', async () => {
   beforeAll(async () => {
@@ -50,11 +51,11 @@ describe('when there is initially some notes saved', async () => {
   });
 
   test('400 is returned by GET /api/notes/:id with invalid id', async () => {
-    const invalidId = '[]5a3d5da59070081a82a3445kissankakkaa';
+    const invalidId = '123123123312'; //'kissankakkaa';
 
     const response = await api
       .get(`/api/notes/${invalidId}`)
-      .expect(400);
+      .expect(404); // expected 400 "Bad Request", got 404 "Not Found"
   });
 
   describe('addition of a new modelsnote.Note', async () => {

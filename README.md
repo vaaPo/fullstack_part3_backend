@@ -154,6 +154,7 @@ node_modules/.bin/eslint --init
 npm install --save-dev jest
 npm install --save-dev supertest
 npm install babel-eslint --save-dev
+npm install bcrypt --save
 ```
 ### Please note that the fullstack application is available also on localhost <http://localhost:3001/>
 #### MONGODB_URI environment variable needs to be set
@@ -309,6 +310,10 @@ then
 ```
 lsof -i :3002
 kill -9 pid
+```
+### git commit log
+```
+git log --oneline --decorate --color
 ```
 
 

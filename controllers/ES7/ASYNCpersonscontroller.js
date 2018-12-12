@@ -8,45 +8,21 @@ You can think of it as a “mini-application,”
 capable only of performing middleware and routing functions.
 Every Express application has a built-in app router.
 */
-/** this is ES6 promises "thenable" controller, look ES7 directory above for async/await versions */
-
-personsRouter.get('/', (request, response) => { //'/api/persons'
-  modelspersons.Person
+/** this is ES7 async/await controller version
+ *  this is going to be ported from ES6 promises to ES7 async await */
+/** the ES6 promises versions are in their own directory */
+personsRouter.get('/', async (request, response) => {//notesRouter.get('/'
+  try { const persons = await modelspersons
+    .Person
     .find({}, {
       __v: 0
-    })
-    .then(persons => {
-      console.log('/api/persons');
-      if (persons) {
-        response.json(persons.map(modelspersons.formatPerson));
-      } else {
-        response.status(404).end(); // request ok format, but not found = 404 !!!
-      }
-    })
-    .catch(error => {
-      console.log(error);
-      response.status(400).send({
-        error: 'something went royally wrong in your request'
-      }); // bad request
     });
-}); // personsRouter.get('api/persons'
-
-personsRouter.get('/:id', (request, response) => { ///api/persons/:id
-  modelspersons.Person
-    .findById(request.params.id)
-    .then(person => {
-      if (person) {
-        response.json(modelspersons.formatPerson(person));
-      } else {
-        response.status(404).end(); // request ok format, but id not found = 404 !!!
-      }
-    })
-    .catch(error => {
-      response.status(400).send({
-        error: 'malformatted id'
-      }); // bad request
-    });
-}); //personsRouter.get('/api/person/:id'
+  response.json(persons.map(modelspersons.formatPerson));
+  } catch (exception) {
+    console.log(exception);
+    response.status(400).send({ error: 'something went royally wrong in your request' });
+  }
+}); //personsRouter.get('/'
 
 personsRouter.post('/', (request, response) => { ///api/persons
   const body = request.body;
