@@ -1,5 +1,5 @@
 const personsRouter = require('express').Router();
-const modelspersons = require('../models/person');
+const modelspersons = require('../../models/person');
 //console.log('personsRouter awake');
 //console.log('require ../models/person');
 /**
@@ -8,6 +8,8 @@ You can think of it as a “mini-application,”
 capable only of performing middleware and routing functions.
 Every Express application has a built-in app router.
 */
+/** this is ES6 promises "thenable" controller, look ES7 directory above for async/await versions */
+
 personsRouter.get('/', (request, response) => { //'/api/persons'
   modelspersons.Person
     .find({}, {

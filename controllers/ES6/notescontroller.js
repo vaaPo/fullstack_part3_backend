@@ -1,5 +1,5 @@
 const notesRouter = require('express').Router();
-const modelsnote = require('../models/note');
+const modelsnote = require('../../models/note');
 //console.log('notesRouter awake');
 //console.log('require ../models/note');
 /**
@@ -8,6 +8,8 @@ You can think of it as a “mini-application,”
 capable only of performing middleware and routing functions.
 Every Express application has a built-in app router.
 */
+/** this is ES6 promises "thenable" controller, look ES7 directory above for async/await versions */
+
 
 notesRouter.get('/', (request, response) => { ///api/notes
 

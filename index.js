@@ -7,18 +7,29 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const middleware = require('./utils/middleware');
 var morgan = require('morgan');
-const notesRouter = require('./controllers/notescontroller');
-const personsRouter = require('./controllers/personscontroller');
+//const notesRouter = require('./controllers/ES6/notescontroller');
+const notesRouter = require('./controllers/ES7/ASYNCnotescontroller');
+const personsRouter = require('./controllers/ES6/personscontroller');
 const config = require('./utils/config');
 
+//https://stackoverflow.com/questions/50448272/avoid-current-url-string-parser-is-deprecated-warning-by-setting-usenewurlpars
+//DeprecationWarning: current URL string parser is deprecated,
+//mongoose.connect("mongodb://localhost:27017/YourDB", { useNewUrlParser: true });
+
 mongoose
-  .connect(config.mongoUrl)
+  .connect(config.mongoUrl,{ useNewUrlParser: true })
+//  .connect(config.mongoUrl)
   .then( () => {
     console.log('connected to database', config.mongoUrl);
   })
   .catch( err => {
     console.log(err);
   });
+
+
+//https://github.com/Automattic/mongoose/issues/7108
+//DeprecationWarning: collection.findAndModify is deprecated. Use findOneAndUpdate, findOneAndReplace or findOneAndDelete instead.
+mongoose.set('useFindAndModify', false);
 //
 // LOTS OF middleware stuff here:
 app.use(cors()); //https://github.com/expressjs/cors

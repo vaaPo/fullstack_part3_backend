@@ -46,9 +46,13 @@ TREE for backend
 
 ├── build				// frontend build for: dev, prod
 ...
-├── controllers
-│   ├── notescontroller.js		// notesRouter	 /, /:id get,delete,post,put
-│   └── personscontroller.js		// personsRouter /, /:id get,delete,post,put
+├── controllers         // ES6 or ES7 can be set in index.js
+|   ├── ES6                             // ES 6 promise .then thenable controllers (Routers)
+│   |   ├── notescontroller.js          // notesRouter	 /, /:id get,delete,post,put
+│   |   └── personscontroller.js        // personsRouter /, /:id get,delete,post,put
+|   └── ES7                             // ES 7 async/await controllers (Routers)
+|       ├── ASYNCnotescontroller.js     // notesRouter	 /, /:id get,delete,post,put
+|       └── ASYNCpersonscontroller.js   // personsRouter /, /:id get,delete,post,put
 ├── datafiles				// static jsons, these are no more supported in backend
 │   ├── Kurssit
 │   │   ├── halfstackkurssi.js
@@ -149,7 +153,7 @@ npm install eslint --save-dev
 node_modules/.bin/eslint --init
 npm install --save-dev jest
 npm install --save-dev supertest
-
+npm install babel-eslint --save-dev
 ```
 ### Please note that the fullstack application is available also on localhost <http://localhost:3001/>
 #### MONGODB_URI environment variable needs to be set
@@ -286,6 +290,11 @@ PORT=3001
 TEST_MONGODB_URI=mongodb://127.0.0.1:27017/fullstacktest
 TEST_PORT=3002
 ```
+#### mongodb deprecated warns
+<https://stackoverflow.com/questions/50448272/avoid-current-url-string-parser-is-deprecated-warning-by-setting-usenewurlpars>
+```
+connect(config.mongoUrl,{ useNewUrlParser: true })
+``` 
 ### Testing with jest
 <https://jestjs.io/docs/en/expect.html#content>
 ```
