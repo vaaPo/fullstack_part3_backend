@@ -43,7 +43,8 @@ usersRouter.get('/', async (request, response) => {
     .find({}, {
       __v: 0
     })
-    .populate('notes')                   // non-consistent outer-join to notes chained to find
+//    .populate('notes')                   // non-consistent outer-join to notes chained to find
+    .populate('notes', { content: 1, date: 1 } )
     ;
   response.json(users.map(User.format)); //User.format defined in models/user.js
   } catch (exception) {
