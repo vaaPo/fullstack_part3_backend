@@ -1,9 +1,9 @@
 const bcrypt = require('bcrypt');
 const usersRouter = require('express').Router();
-const modelsuser = require('../../models/user'); //User
+const User = require('../../models/user'); //User
 
-//modelsuser.User
-//modelsuser.User.format
+//UserUser
+//UserUser.format
 
 usersRouter.post('/', async (request, response) => {
   try {
@@ -12,7 +12,7 @@ usersRouter.post('/', async (request, response) => {
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(body.password, saltRounds);
 
-    const existingUser = await modelsuser.User.find({username: body.username})
+    const existingUser = await User.find({username: body.username})
     if (existingUser.length>0) {
       return response.status(400).json({ error: 'username must be unique' })
     }
@@ -23,7 +23,7 @@ usersRouter.post('/', async (request, response) => {
      * ja onko salasana tarpeeksi hyvä. Jätämme ne kuitenkin harjoitustehtäväksi.
      * 
      */
-    const user = new modelsuser.User({
+    const user = new User({
       username: body.username,
       name: body.name,
       passwordHash
@@ -31,7 +31,7 @@ usersRouter.post('/', async (request, response) => {
 
     const savedUser = await user.save();
 
-    response.json(modelsuser.User.format(savedUser));
+    response.json(User.format(savedUser));
   } catch (exception) {
     console.log(exception);
     response.status(500).json({ error: 'something went wrong...' });
@@ -39,12 +39,11 @@ usersRouter.post('/', async (request, response) => {
 });
 
 usersRouter.get('/', async (request, response) => {
-  try {const users = await modelsuser
-    .User
+  try {const users = await User
     .find({}, {
       __v: 0
     });
-  response.json(users.map(modelsuser.User.format)); //modelsuser.User.format  //formatUser
+  response.json(users.map(User.format)); //UserUser.format  //formatUser
   } catch (exception) {
     console.log(exception);
     response.status(400).send({ error: 'something went royally wrong in your request' });
