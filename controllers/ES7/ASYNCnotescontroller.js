@@ -129,7 +129,8 @@ notesRouter.put('/:id', async (request, response) => { //notesRouter.put('/:id'
 
 notesRouter.delete('/:id', async (request, response) => { ///api/notes/:id
   try {
-    await Note.findByIdAndRemove(request.params.id);
+    await Note.findByIdAndRemove(request.params.id);            
+    //FIXME implement put for user which removes the note to be removed from users collection
 
     response.status(204).end(); //no content
   } catch (exception) {
