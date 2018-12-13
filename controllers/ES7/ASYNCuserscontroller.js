@@ -45,10 +45,10 @@ usersRouter.get('/', async (request, response) => {
       __v: 0
     })
   //    .populate('notes')                   // non-consistent outer-join to notes chained to find
-    .populate('notes', { 
+    .populate('notes', {
       content: 1,
       important: 1,
-      date: 1 
+      date: 1
     });
   response.json(users.map(User.format)); //User.format defined in models/user.js
   } catch (exception) {
@@ -70,24 +70,23 @@ usersRouter.delete('/:id', async (request, response) => { ///api/users/:id
   }
 });  //notesRouter.delete('/api/notes/:id
 
-
-usersRouter.get('/:id', (request, response) => { ///api/users/:id
-  User
-    .findById(request.params.id)
-    .then(user => {
-      if (user) {
-        response.json(User.formUser(user));
-      } else {
-        response.status(404).end(); // request ok format, but id not found = 404 !!!
-      }
-    })
-    .catch(error => {
-      response.status(400).send({
-        error: 'malformatted id'
-      }); // bad request
+usersRouter.get('/:id', async (request, response) => { ///api/users/:id
+  try {const user= await User.findById(request.params.id)
+    .populate('notes', {
+      content: 1,
+      important: 1,
+      date: 1
     });
+  if (user) {
+    response.json(User.format(user));
+  } else {
+    response.status(404).end(); // request ok format, but id not found=404 !!!
+  }
+  } catch (exception) {
+    console.log(exception);
+    response.status(400).send({ error: 'malformatted id' });
+  }
 }); //usersRouter.get('/api/users/:id'
-
 
 module.exports = usersRouter;
 /**
