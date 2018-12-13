@@ -11,7 +11,7 @@ Notes       | add, delete, change importance
 Country     | search, drilldown 
 temperature | celsius-fahrenheit conversion and boiling AI 
 
-## persons API's 
+## persons API's  router based on ES6 promises
 url             | rest verb | functionality
 ----------------|-----------|---------------
 api/persons     | GET       | get all persons      
@@ -29,6 +29,16 @@ api/notes       | PUT       | update notes importance
 api/notes/:id   | GET       | get note by id (mongodb generated) 
 api/notes/:id   | DELETE    | delete note by id
 
+## users API's 
+url             | rest verb | functionality
+----------------|-----------|---------------
+api/users       | GET       | get all users, populate('notes', { content: 1, date: 1 } )
+api/users       | POST      | post new user, passwordHash = await bcrypt.hash(body.password, saltRounds); 
+api/users       | PUT       | missing
+api/users/:id   | GET       | get note by id (mongodb generated) 
+api/users/:id   | DELETE    | delete note by id
+
+
 ## info API's
 url             | rest verb | functionality
 ----------------|-----------|---------------
@@ -39,7 +49,7 @@ info            | GET       | got destroyed, highly trained monkeys fixing it
 ----------------------
 TREE for backend
 ----------------------
-.env                    // .gitignored file MONGODB_URI,PORT,TEST_MONGODB_URI,TEST_PORT
+.env                    // .gitignored file with environment variables MONGODB_URI,PORT,TEST_MONGODB_URI,TEST_PORT,SECRET
 .eslintignore           // I need my teachers lint files :)
 .eslintrc.js            // configurations for eslintignore
 .gitignored             // trying to hide secrets and not to pollute github
@@ -47,12 +57,13 @@ TREE for backend
 ├── build				// frontend build for: dev, prod
 ...
 ├── controllers         // ES6 or ES7 can be set in index.js
-|   ├── ES6                             // ES 6 promise .then thenable controllers (Routers)
+|   ├── ES6                 // ES 6 promise .then thenable controllers (Routers)
 │   |   ├── notescontroller.js          // notesRouter	 /, /:id get,delete,post,put
 │   |   └── personscontroller.js        // personsRouter /, /:id get,delete,post,put
-|   └── ES7                             // ES 7 async/await controllers (Routers)
+|   └── ES7                 // ES 7 async/await controllers (Routers)
 |       ├── ASYNCnotescontroller.js     // notesRouter	 /, /:id get,delete,post,put
-|       └── ASYNCpersonscontroller.js   // personsRouter /, /:id get,delete,post,put
+|       |── ASYNCpersonscontroller.js   // NOT CONFIGURED INTO USE !!!! 
+|       └── ASYNCuserscontroller.js     // usersRouter   /, /:id get,delete,post,put
 ├── datafiles				// static jsons, these are no more supported in backend
 │   ├── Kurssit
 │   │   ├── halfstackkurssi.js
@@ -63,8 +74,9 @@ TREE for backend
 │       └── persons.js
 ├── index.js				// backend
 ├── models
-│   ├── note.js				// Note,   formatNote
-│   └── person.js			// Person, formatPerson
+│   ├── note.js				// Note,   Note.format
+│   └── person.js			// Person, Person.format
+|   └── user.js			    // User,   User.format - join with note, used to authorize posting of notes
 ├── mongo.js				// command line argument tricks for Node mongodb testing
 ├── mongotrials
 │   ├── monghw3.12.sh			// .gitignored secrets
@@ -77,6 +89,7 @@ TREE for backend
 ├── README.md				// you are reading it
 ├── requests				// Vcode rest tests   
 │   ├── api_notes
+│   │   ├── bearer_auth_add_note                // posting notes requires 1st login.rest then this bearer version with fresh token
 │   │   ├── broken_header_in_post_note.rest
 │   │   ├── delete_note.rest
 │   │   ├── get_all_notes.rest
@@ -96,15 +109,20 @@ TREE for backend
 │   │   ├── post_broken_api_persons_4_phonenumber_missing.rest
 │   │   ├── post_broken_api_persons_5_name_duplicate.rest
 │   │   └── put_person.rest
+│   ├── api_users
+│   │   └── get_api_users.rest              // /api/users
 │   └── get_info.rest			//FIXME router?
-├── scribe.txt				// visual evidence of some state of hacking
-├── tests				// run PART4 jest test examples with: "npm run test" 
+├── scribe.txt				// visual evidence of hacking with index.js: repl.start('> ').context.notes = notes;
+├── tests				    // run PART4 jest test examples with: "npm run test" 
 │   ├── average.test.js			
-│   └── palindrom.test.js
-├── tree.txt
+│   |── palindrom.test.js
+│   |── note_api.test.js    // supertest, jest for /api/notes
+│   |── note_test_helper.js // note_api_test deps
+│   |── user_test_helper.js // user_api_test deps
+│   └── user_api.test.js    // supertest, jest for /api/user
 └── utils				// utilities .js 
-    ├── config.js			// DEV/TEST dotenv .env sourcing for mongoUrl,port
-    ├── for_testing.js			// palindrom, average  - used for jest tests
+    ├── config.js			    // DEV/TEST dotenv .env sourcing for mongoUrl,port
+    ├── for_testing.js			// palindrom, average  - funcs used for jest tests
     └── middleware.js			// logger and error like 404 for endpoint requests
 -------------
 

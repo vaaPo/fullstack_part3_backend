@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const usersRouter = require('express').Router();
 const User = require('../../models/user'); //User
+const Note = require('../../models/note');
 
 //UserUser
 //UserUser.format
@@ -12,16 +13,16 @@ usersRouter.post('/', async (request, response) => {
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(body.password, saltRounds);
 
-    const existingUser = await User.find({username: body.username})
+    const existingUser = await User.find({ username: body.username });
     if (existingUser.length>0) {
-      return response.status(400).json({ error: 'username must be unique' })
+      return response.status(400).json({ error: 'username must be unique' });
     }
 
     /**Voisimme toteuttaa käyttäjien luomisen yhteyteen myös muita tarkistuksia,
-     *  esim. onko käyttäjätunnus tarpeeksi pitkä, 
-     * koostuuko se sallituista merkeistä 
+     *  esim. onko käyttäjätunnus tarpeeksi pitkä,
+     * koostuuko se sallituista merkeistä
      * ja onko salasana tarpeeksi hyvä. Jätämme ne kuitenkin harjoitustehtäväksi.
-     * 
+     *
      */
     const user = new User({
       username: body.username,
@@ -43,15 +44,50 @@ usersRouter.get('/', async (request, response) => {
     .find({}, {
       __v: 0
     })
-//    .populate('notes')                   // non-consistent outer-join to notes chained to find
-    .populate('notes', { content: 1, date: 1 } )
-    ;
+  //    .populate('notes')                   // non-consistent outer-join to notes chained to find
+    .populate('notes', { 
+      content: 1,
+      important: 1,
+      date: 1 
+    });
   response.json(users.map(User.format)); //User.format defined in models/user.js
   } catch (exception) {
     console.log(exception);
     response.status(400).send({ error: 'something went royally wrong in your request' });
   }
 });
+
+usersRouter.delete('/:id', async (request, response) => { ///api/users/:id
+  console.log('personsRouter.delete /api/persons/:id', request.params.id);
+  //mongoose.set('useFindAndModify', false);
+  try {
+    await User.findByIdAndRemove(request.params.id);
+    //        .findOneAndRemove({ _id: request.params.id })
+    response.status(204).end(); //no content
+  } catch (exception) {
+    console.log(exception);
+    response.status(400).send({ error: 'malformatted id' }); // e.g. FOOBAR
+  }
+});  //notesRouter.delete('/api/notes/:id
+
+
+usersRouter.get('/:id', (request, response) => { ///api/users/:id
+  User
+    .findById(request.params.id)
+    .then(user => {
+      if (user) {
+        response.json(User.formUser(user));
+      } else {
+        response.status(404).end(); // request ok format, but id not found = 404 !!!
+      }
+    })
+    .catch(error => {
+      response.status(400).send({
+        error: 'malformatted id'
+      }); // bad request
+    });
+}); //usersRouter.get('/api/users/:id'
+
 
 module.exports = usersRouter;
 /**
